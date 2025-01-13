@@ -1,0 +1,190 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    color: black;
+}
+
+.bodyLoginRegistration{
+    background-image: url("../uplodefile/adminsing.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: cover; 
+    background-position: center; 
+    color: black 
+
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    padding: 20px;
+}
+fieldset{
+    margin: 10px;
+    border-radius: 20px;
+    color: white;
+    
+}
+legend{
+    font-family: 'Times New Roman', Times, serif;
+    font: 1.5em sans-serif;
+    margin: 10px 0 0 25px;
+}
+.login{
+    background:#fff;
+    opacity: 70%;
+    width: 600px;
+    position:absolute;
+    top:200px;
+    left:650px;
+    font-family: verdana;
+    font-size: 16px;
+    line-height: 30px;  
+    border-radius: 25px;
+    margin: 10px;
+}
+.login .loginTable {
+    width: 100%;  
+    margin: 0 auto;  
+}
+
+.reg1{
+    background:#181717;
+    opacity: 70%;
+    width: auto;
+    position:absolute;
+    top:100px;
+    left:550px;
+    font-family: verdana;
+    font-size: 16px;
+    line-height: 30px;  
+    border-radius: 25px;
+    margin: 10px;
+    color: white;
+}
+.error{
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+}
+.fas fa-exclamation-circle{
+    color: red;
+    font-size:16px
+}
+.input {
+    font-size: 16px;
+    position: relative;
+    margin: 25px 0;
+    background: transparent;
+    border: 2px solid red;
+    outline: none;
+    border-radius: 40px;
+    color:black;
+    padding: 15px 15px 5px; 
+    width: 100%; 
+    box-sizing: border-box; 
+}
+label{
+    padding: 10px;
+}
+.reg1 .logBtn {
+    position: relative;
+    width: 100%;
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 16px;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px; 
+    
+}
+.reg1 .logBtn:hover {
+    background-color: black;
+    color: white;
+}
+.reg1 .logBtn-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 10px; /* Position buttons near the bottom */
+    width: 100%;
+}
+
+.login .logBtn {
+    position: relative;
+    width: 100%;
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 16px;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px; 
+    
+}
+.login .logBtn:hover {
+    background-color: black;
+    color: white;
+}
+
+.login .logBtn-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 10px; 
+    width: 100%;
+}
+
+.show_table{
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    height: 100px;
+}
+.table_head{
+    background-color: #f2f2f2;
+    color: black;
+    text-align: left;
+    font-size: 16px;
+    height: 50px;
+}
+.table_row:nth-child(even) {
+    background-color: #7dcbf8;
+}
+
+.table_row:hover {
+    background-color: rgb(186, 217, 245);
+}
+
+.butt1{
+    font-size: 16px;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+.butt2{
+
+    font-size: 16px;
+    color: white;
+    background-color: #4CAF50;
+    margin-left: 100px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
