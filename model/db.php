@@ -121,40 +121,40 @@ class myDB {
             $stmt = $connectionObject->prepare($sql);
             $stmt->bind_param("ss", $userName, $password);
             $stmt->execute();
-            $results = $stmt->get_result();
+            $adminResults = $stmt->get_result();
             $stmt->close();
-            return $results;
-            echo"success".$results;
+            return $adminResults;
+            echo"success".$adminResults;
         }
         else if($role == 'customer'){
             $sql = "SELECT * FROM customer WHERE userName = ? AND password = ?";
             $stmt = $connectionObject->prepare($sql);
             $stmt->bind_param("ss", $userName, $password);
             $stmt->execute();
-            $results = $stmt->get_result();
+            $customerResults = $stmt->get_result();
             $stmt->close();
-            return $results;
-            echo"success".$results;
+            return $customerResults;
+            echo"success".$customerResults;
         }
         else if($role == 'seller'){
             $sql = "SELECT * FROM seller WHERE email = ? AND password = ?";
             $stmt = $connectionObject->prepare($sql);
             $stmt->bind_param("ss", $userName, $password);
             $stmt->execute();
-            $results = $stmt->get_result();
+            $sellerResults = $stmt->get_result();
             $stmt->close();
-            return $results;
-            echo"success".$results;
+            return $sellerResults;
+            echo"success".$sellerResults;
         }
         else if($role == 'employee'){
             $sql = "SELECT * FROM employee WHERE userName = ? AND password = ?";
             $stmt = $connectionObject->prepare($sql);
             $stmt->bind_param("ss", $userName, $password);
             $stmt->execute();
-            $results = $stmt->get_result();
+            $employeeResults = $stmt->get_result();
             $stmt->close();
-            return $results;
-            echo"success".$results;
+            return $employeeResults;
+            echo"success".$employeeResults;
         }
         else{
             echo"error";

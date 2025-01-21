@@ -47,14 +47,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($email) && preg_match("/@gmail\.com$/", $email)) {
         $emailError = "Please enter an email.";
         $hasError++;
-    }
+    }   
 
-    $userName = $_REQUEST["user_name"];
-    if (empty($userName) && !preg_match("/^[a-zA-Z0-9_-]{3,20}$/", $username)) {
-        $userNameError = "Please enter a username.";
+    $userName = $_REQUEST["user_name"]; // Capture input from the request
+    if (empty($userName) || !preg_match("/^[a-zA-Z0-9_-]{3,20}$/", $userName)) {
+        $userNameError = "Please enter a valid username.";
         $hasError++;
     }
-
+    
     $password = $_REQUEST["Password"];
     if (empty($password) || !preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,}$/", $password)) {
         $passwordError = "Please enter a password.";

@@ -54,13 +54,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $myDB->login($userName, $password, $role, $tableName, $connectionObject);
 
         $myDB->closeCon($connectionObject);
-
-        if ($result == 1) {
+        $adminResults = 0;
+        $customerResults = 0;
+        $sellerResults = 0;
+        $employeeResults = 0;
+        if ($adminResults === 1) {
             $_SESSION["user_name"] = $userName;
             $_SESSION["Password"] = $password;
             header("Location: ../view/home.php");
             exit;
-        } else {
+        }
+        else if ($customerResults === 1) {
+            $_SESSION["user_name"] = $userName;
+            $_SESSION["Password"] = $password;
+            header("Location: ../view/home.php");
+            exit;
+        }
+        else if ($sellerResults === 1) {
+            $_SESSION["user_name"] = $userName;
+            $_SESSION["Password"] = $password;
+            header("Location: ../view/home.php");
+            exit;
+        }
+        else if ($employeeResults === 1) {
+            $_SESSION["user_name"] = $userName;
+            $_SESSION["Password"] = $password;
+            header("Location: ../view/home.php");
+            exit;   
+        }
+         else {
             echo "Error inserting data into the database.";
         }
         
