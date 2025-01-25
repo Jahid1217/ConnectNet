@@ -148,7 +148,11 @@
             </div>
             <div>
                 <input type="submit" value="Submit Form" class="logBtn">
-                <input type="reset" value="Clear Form" class="logBtn">
+                <button type="button" class="logBtn" onclick="myFunction()" >
+                    Clear Form
+                </button>
+                
+
             </div>
         </form>
     </div>

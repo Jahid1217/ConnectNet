@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hasError++;
     }
 
-    $dateOfBirth = $_REQUEST["dath_of_birth"];
+    $dateOfBirth = $_REQUEST["date_of_birth"];
     if (empty($dateOfBirth)) {
         $dateOfBirthError = "Please enter the date of birth.";
         $hasError++;
@@ -158,8 +158,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $myDB->closeCon($connectionObject);
 
         if ($result === 1) {
-            $_SESSION["user_name"] = $userName;
-            $_SESSION["Password"] = $password;
+            // $_SESSION["user_name"] = $userName;
+            // $_SESSION["Password"] = $password;
             header("Location: ../view/login.php");
             exit;
         } else {

@@ -33,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $termsError = "You must agree to the terms and conditions.";
         
     }
-    $role = $_REQUEST["role"];
-    if (empty($_REQUEST["role"])) {
-        $roleError = "Please select a role.";
-        $hasError++;
-    }
+    // $role = $_REQUEST["role"];
+    // if (empty($_REQUEST["role"])) {
+    //     $roleError = "Please select a role.";
+    //     $hasError++;
+    // }
 
 
     if (!isset($_REQUEST["terms"])) {
@@ -45,48 +45,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
     }
     
+    $tableName = "admin";
+
     if ($hasError == 0) {
-        
-        $tableName = "admin";
         $myDB = new myDB();
         $connectionObject = $myDB->openCon();
-
-        $result = $myDB->login($userName, $password, $role, $tableName, $connectionObject);
-
+    
+        $result =$myDB->login($userName, $password, $connectionObject);
+    
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $role = $row['role'];
+            session_start();
+            $_SESSION["user_name"] = $userName;
+            switch ($role) {
+                case 'admin':
+                    header("Location: ../view/home.php");
+                    exit();
+                case 'employee':
+                    header("Location: ../view/showuser.php");
+                    exit();
+                case 'seller':
+                    header("Location: ../view/seller.php");
+                    exit();
+                default:
+                    header("Location: ../view/customer.php");
+                    exit();
+            }
+        } else {
+            echo "Invalid username or password";
+        }
         $myDB->closeCon($connectionObject);
-        $adminResults = 0;
-        $customerResults = 0;
-        $sellerResults = 0;
-        $employeeResults = 0;
-        if ($adminResults === 1) {
-            $_SESSION["user_name"] = $userName;
-            $_SESSION["Password"] = $password;
-            header("Location: ../view/home.php");
-            exit;
-        }
-        else if ($customerResults === 1) {
-            $_SESSION["user_name"] = $userName;
-            $_SESSION["Password"] = $password;
-            header("Location: ../view/home.php");
-            exit;
-        }
-        else if ($sellerResults === 1) {
-            $_SESSION["user_name"] = $userName;
-            $_SESSION["Password"] = $password;
-            header("Location: ../view/home.php");
-            exit;
-        }
-        else if ($employeeResults === 1) {
-            $_SESSION["user_name"] = $userName;
-            $_SESSION["Password"] = $password;
-            header("Location: ../view/home.php");
-            exit;   
-        }
-         else {
-            echo "Error inserting data into the database.";
-        }
-        
-        
+        // if ($result == 1) {
+        //     $_SESSION["user_name"] = $userName;
+        //     $_SESSION["Password"] = $password;
+        //     header("Location: ../view/home.php");
+        //     exit;
+        // } else {
+        //     echo "Error inserting data into the database.";
+        // } 
     }
 }
 

@@ -1,5 +1,7 @@
+
 <?php
 session_start();
+include '../control/searchUser_control.php';
 include '../control/showuser_control.php';
 ?>
 <!DOCTYPE html>
@@ -12,9 +14,15 @@ include '../control/showuser_control.php';
 </head>
 <body>
     <br>
+    <h2>User Data</h2>
+    <label for="name">Name:</label>
+    <input type="text" name="name" value="" id="search" onkeyup="searchUser()"  >
+    <p id="print"></p>
+    <br>
     <a  class="butt1" href="../control/session_Logout.php">Logout</a>
     <a class="butt2" href="../view/home.php">Back</a>
 </body>
+<script src="../js/myScript.js"></script>
 </html>
 <?php
 if(!isset($_SESSION["user_name"])){

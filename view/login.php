@@ -15,7 +15,7 @@
             <fieldset>
                 <legend><h1>Login</h1></legend>
                 <table class="loginTable">
-                    <tr>
+                    <!-- <tr>
                         <td><label for="Role" class="label">Role:</label></td>
                         <td>
                             <select name="role" id="Role" class="input" required>
@@ -26,7 +26,7 @@
                                 <option value="employee">Employee</option>
                             </select>
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td><label for="username" class="label">Username:</label></td>
                         <td><input type="text" name="user_name" id="username" class="input" placeholder="Username" required></td>
@@ -52,5 +52,6 @@
             </fieldset>
         </form>
     </div>
+    <script src="../scripts/script.js"></script> 
 </body>
 </html>

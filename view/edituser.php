@@ -8,53 +8,81 @@ include '../control/edituser_control.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/styles.css">
     <title>Edit User</title>
 </head>
-<body>
-    <h1>Edit User</h1>
-    <form action="" method="post">
-        <label for="ID" >ID:</label>
-        <input type="text" id="ID" name="id" value="<?php echo $id;?>" readonly><br><br>
+<body id="edit_user_body">
+<form  id="edit_user_from"action="" method="post" enctype="multipart/form-data">
+        <h1 id="edit_user_h1">Edit User</h1>
+        <label for="ID">ID:</label>
+        <input type="text" id="ID" name="id" value="<?php echo $id; ?>" readonly><br>
+        
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="<?php echo $Name;?>"><br><br>
+        <input type="text" id="name" name="name" value="<?php echo $Name; ?>">
+        <div class="error" id="error_name"></div>
+
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email" value="<?php echo $email;?>"><br><br>
+        <input type="text" id="email" name="email" value="<?php echo $email; ?>">
+        <div class="error" id="error_email"></div>
+
         <label for="username">User Name:</label>
-        <input type="text" id="username" name="username" value="<?php echo $userName;?>"><br><br>
+        <input type="text" id="username" name="username" value="<?php echo $userName; ?>">
+        <div class="error" id="error_username"></div>
+
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" value="<?php echo $password;?>"><br><br>
+        <input type="password" id="password" name="password" value="<?php echo $password; ?>">
+        <div class="error" id="error_password"></div>
+
         <label for="phone">Phone:</label>
-        <input type="text" id="phone" name="phone" value="<?php echo $phoneNumber;?>"><br><br>
+        <input type="text" id="phone" name="phone" value="<?php echo $phoneNumber; ?>">
+        <div class="error" id="error_phone"></div>
+
         <label for="address">Address:</label>
-        <textarea id="address" name="address"><?php echo $location;?></textarea><br><br>
+        <textarea id="address" name="address"><?php echo $location; ?></textarea>
+        <div class="error" id="error_address"></div>
+
         <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" name="dob" value="<?php echo $dateOfBirth;?>"><br><br>
+        <input type="date" id="dob" name="dob" value="<?php echo $dateOfBirth; ?>">
+        <div class="error" id="error_dob"></div>
+
         <label for="role">Role:</label>
         <select id="role" name="role">
-            <option value="<?php echo $role;?>"><?php echo $adminRole;?></option>
+            <option value="<?php echo $role; ?>"><?php echo $adminRole; ?></option>
             <option value="Network_Admin">Network Admin</option>
             <option value="Billing_Admin">Billing Admin</option>
             <option value="Support_Admin">Support Admin</option>
             <option value="General_Admin">General Admin</option>
-        </select><br><br>
+        </select>
+
         <label for="profile">Profile Picture:</label><br>
-        <img src="../uplodefile/<?php echo $profile_Picture;?>" alt="Profile Picture" style="width: 50px; height: 50px;"><br><br>
-        <input type="file" id="profile" name="profile" value="<?php echo $profile_Picture;?>"><br><br>
-        <label for="ReferenceName">Reference One Name:</label>
-        <input type="text" id="ReferenceName" name="reference_name" value="<?php echo $referenceName;?>"><br><br>
-        <label for="ReferenceEmail">Reference One Email:</label>
-        <input type="text" id="ReferenceEmail" name="reference_email" value="<?php echo $referenceEmail;?>"><br><br>
-        <label for="ReferencePhone">Reference One Phone:</label>
-        <input type="text" id="ReferencePhone" name="reference_phone" value="<?php echo $referencePhone;?>"><br><br>
-        <label for="ReferenceNameTwo">Reference Two Name:</label>
-        <input type="text" id="ReferenceNameTwo" name="reference_name_two" value="<?php echo $referenceNameTwo;?>"><br><br>
-        <label for="ReferenceEmailTwo">Reference Two Email:</label>
-        <input type="text" id="ReferenceEmailTwo" name="reference_email_two" value="<?php echo $referenceEmailTwo;?>"><br><br>
-        <label for="ReferencePhoneTwo">Reference Two Phone:</label>
-        <input type="text" id="ReferencePhoneTwo" name="reference_phone_two" value="<?php echo $referencePhoneTwo;?>"><br><br>
-    
-        <input type="submit" value="update" name="update">
+        <img src="../uplodefile/<?php echo $profile_Picture; ?>" alt="Profile Picture" style="width: 50px; height: 50px;"><br>
+        <input type="file" id="profile" name="profile"><br>
+
+        <label for="reference_name">Reference One Name:</label>
+        <input type="text" id="reference_name" name="reference_name" value="<?php echo $referenceName; ?>">
+        <div class="error" id="error_reference_name"></div>
+
+        <label for="reference_email">Reference One Email:</label>
+        <input type="text" id="reference_email" name="reference_email" value="<?php echo $referenceEmail; ?>">
+        <div class="error" id="error_reference_email"></div>
+
+        <label for="reference_phone">Reference One Phone:</label>
+        <input type="text" id="reference_phone" name="reference_phone" value="<?php echo $referencePhone; ?>">
+        <div class="error" id="error_reference_phone"></div>
+
+        <label for="reference_name_two">Reference Two Name:</label>
+        <input type="text" id="reference_name_two" name="reference_name_two" value="<?php echo $referenceNameTwo; ?>">
+        <div class="error" id="error_reference_name_two"></div>
+
+        <label for="reference_email_two">Reference Two Email:</label>
+        <input type="text" id="reference_email_two" name="reference_email_two" value="<?php echo $referenceEmailTwo; ?>">
+        <div class="error" id="error_reference_email_two"></div>
+
+        <label for="reference_phone_two">Reference Two Phone:</label>
+        <input type="text" id="reference_phone_two" name="reference_phone_two" value="<?php echo $referencePhoneTwo; ?>">
+        <input  type="submit" value="Update" name="update">
     </form>
     <a href="showuser.php">Back to User List</a>
+    <script src="../js/myScript.js"></script>
 </body>
 </html>

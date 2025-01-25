@@ -2,10 +2,10 @@
 class myDB {
     // Function to open a connection to the database
     public function openCon() {
-        $DBHost = "localhost"; // Hostname for the database
-        $DBUser = "root";      // Database username
-        $DBPassword = "";      // Database password
-        $DBName = "connectnet";   // Database name
+        $DBHost = "localhost"; 
+        $DBUser = "root";      
+        $DBPassword = "";      
+        $DBName = "connectnet";   
 
         // Create a connection object
         $connectionObject = new mysqli($DBHost, $DBUser, $DBPassword, $DBName);
@@ -21,7 +21,7 @@ class myDB {
     public function insertData( $Name, $email, $password,$userName, $dateOfBirth, $phoneNumber, $adminRole, $location, $profile_Picture, $referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $connectionObject) 
     {
         // Corrected SQL query with 12 placeholders
-        $sql = "INSERT INTO admin (name, email,userName,password, DOB, phoneNumber, adminRole, location, picture, referenceName, referenceEmail, referencePhone, referenceNameTwo, referenceEmailTwo, referencePhoneTwo) 
+        $sql = "INSERT INTO admin (name, email,username,password, DOB, phoneNumber, adminRole, location, picture, referenceName, referenceEmail, referencePhone, referenceNameTwo, referenceEmailTwo, referencePhoneTwo) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         // Prepare the statement
@@ -45,7 +45,7 @@ class myDB {
     
     // Function to show all records from the database
     function showAll($tableName,$connectionObject){
-        $sql = "SELECT id,name, email,userName, DOB, phoneNumber, adminRole, location, picture, referenceName, referenceEmail, referencePhone, referenceNameTwo, referenceEmailTwo, referencePhoneTwo FROM $tableName";
+        $sql = "SELECT id,name, email,username, DOB, phoneNumber, adminRole, location, picture, referenceName, referenceEmail, referencePhone, referenceNameTwo, referenceEmailTwo, referencePhoneTwo FROM $tableName";
         $resutlts = $connectionObject->query($sql);
         return $resutlts;
     }
@@ -74,7 +74,7 @@ class myDB {
 
     // Function to update a record in the database
     function updateDataUser($id, $Name, $email, $userName, $password, $dateOfBirth, $phoneNumber, $adminRole, $location, $profile_Picture, $referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $tableName, $connectionObject) {
-        // Create SQL with placeholders
+
         $sql = "UPDATE $tableName SET 
                     name = ?, 
                     email = ?, 
@@ -97,67 +97,49 @@ class myDB {
         if ($stmt === false) {
             return "Error preparing statement: " . $connectionObject->error;
         }
-    
-        // Bind parameters
+
         $stmt->bind_param(
             "sssssssssssssssi", 
             $Name, $email, $userName, $password, $dateOfBirth, $phoneNumber, $adminRole, $location, $profile_Picture, $referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $id
         );
-    
-        // Execute the statement
         if ($stmt->execute()) {
             $stmt->close();
-            return 1; // Success
+            return 1; 
         } else {
             $error = "Error executing statement: " . $stmt->error;
             $stmt->close();
             return $error;
         }
     }
+    function searchUserByUsername($connectionObject, $userName) {
+        $sql = "SELECT * FROM admin WHERE name = ?";
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param("s", $userName);
+        $stmt->execute();
+        $results = $stmt->get_result();
+        return $results;
+    }
     // Function to login  in the database
-    function login($userName, $password,$role, $tableName, $connectionObject) {
-        if($role == 'admin'){
-            $sql = "SELECT * FROM $tableName WHERE userName = ? AND password = ?";
-            $stmt = $connectionObject->prepare($sql);
+    function login($userName, $password, $connectionObject) {
+        $sql = "SELECT username, role FROM (
+            SELECT username, password, role FROM admin
+            UNION 
+            SELECT username, password, role FROM customer
+            UNION 
+            SELECT username, password, role FROM employee
+            UNION 
+            SELECT username, password, role FROM seller
+        ) AS combined 
+        WHERE username = ? AND password = ?";
+    
+        if ($stmt = $connectionObject->prepare($sql)) {
             $stmt->bind_param("ss", $userName, $password);
             $stmt->execute();
-            $adminResults = $stmt->get_result();
-            $stmt->close();
-            return $adminResults;
-            echo"success".$adminResults;
-        }
-        else if($role == 'customer'){
-            $sql = "SELECT * FROM customer WHERE userName = ? AND password = ?";
-            $stmt = $connectionObject->prepare($sql);
-            $stmt->bind_param("ss", $userName, $password);
-            $stmt->execute();
-            $customerResults = $stmt->get_result();
-            $stmt->close();
-            return $customerResults;
-            echo"success".$customerResults;
-        }
-        else if($role == 'seller'){
-            $sql = "SELECT * FROM seller WHERE email = ? AND password = ?";
-            $stmt = $connectionObject->prepare($sql);
-            $stmt->bind_param("ss", $userName, $password);
-            $stmt->execute();
-            $sellerResults = $stmt->get_result();
-            $stmt->close();
-            return $sellerResults;
-            echo"success".$sellerResults;
-        }
-        else if($role == 'employee'){
-            $sql = "SELECT * FROM employee WHERE userName = ? AND password = ?";
-            $stmt = $connectionObject->prepare($sql);
-            $stmt->bind_param("ss", $userName, $password);
-            $stmt->execute();
-            $employeeResults = $stmt->get_result();
-            $stmt->close();
-            return $employeeResults;
-            echo"success".$employeeResults;
-        }
-        else{
-            echo"error";
+            $result = $stmt->get_result();
+            $stmt->close(); 
+            return $result;
+        } else {
+            die("Query preparation failed: " . $connectionObject->error);
         }
     }
     
