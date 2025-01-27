@@ -147,9 +147,9 @@
                 <p id="error_terms" class="error"></p>
             </div>
             <div>
-                <input type="submit" value="Submit Form" class="logBtn">
-                <button type="button" class="logBtn" onclick="myFunction()" >
-                    Clear Form
+                <input type="submit" value="Submit Form" value="submit" class="logBtn">
+                <button type="button" class="logBtn">
+                    <a href="login.php">login Page</a>
                 </button>
                 
 

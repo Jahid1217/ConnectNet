@@ -19,14 +19,14 @@
     </div>
     <?php
         session_start();
-        include '../control/searchUser_control.php';
-        include '../control/showuser_control.php';
+        include '../control/employee_searchUser_control.php';
+        include '../control/employee_showUser_control.php';
     ?>
     <br>
-    <h2>User Data</h2>
+    <h2>Employee Data</h2>
     <label for="name">Name:</label>
-    <input type="text" name="name" value="" id="search" onkeyup="searchUser()"  >
-    <p id="print"></p>
+    <input type="text" name="name" value="" id="employeeUser" onkeyup="searchUserCustomer()"  >
+    <p id="employeePrint"></p>
     <br>
     <a  class="butt1" href="../control/session_Logout.php">Logout</a>
     <a class="butt2" href="../view/home.php">Back</a>

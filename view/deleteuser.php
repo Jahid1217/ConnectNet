@@ -9,7 +9,19 @@ include '../control/deleteuser_control.php';
     <link rel="stylesheet" href="../styles/styles.css">
     <title>Document</title>
 </head>
-<body id="delete_user_body">
+<body >
+<div class="navbar">
+        <div class="logo">
+            <a href="home.php">Home</a>
+        </div>
+        <div class="nav-links">
+            <a href=""></a>
+            <a href="admin_profile.php?username=<?php echo($_SESSION['user_name']); ?>">Profile</a>
+            <a href="profileSetting.php?username=<?php echo($_SESSION['user_name']); ?>">Settings</a>
+        </div>
+    </div>
+    
+    <div id="delete_user_body">
     <h1 id="delete_user_h1">Delete User</h1>
     <form id="delete_from"action="" method="post">
     <div class="form-row">
@@ -64,5 +76,6 @@ include '../control/deleteuser_control.php';
     <input id="delete_user" type="submit" value="Delete" name = "delete">
     <a href="../view/showuser.php" id="delete_user_back">Back</a>
     </form>
+    </div>
 </body>
 </html>

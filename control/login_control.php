@@ -33,13 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $termsError = "You must agree to the terms and conditions.";
         
     }
-    // $role = $_REQUEST["role"];
-    // if (empty($_REQUEST["role"])) {
-    //     $roleError = "Please select a role.";
-    //     $hasError++;
-    // }
-
-
     if (!isset($_REQUEST["terms"])) {
         $termsError = "You must agree to the terms and conditions.";
         

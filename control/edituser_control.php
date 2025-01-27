@@ -15,7 +15,7 @@ if (isset($_GET["id"])) {
             $id = $data["id"];
             $Name = $data["name"];
             $email = $data["email"];
-            $userName = $data["userName"];
+            $userName = $data["username"];
             $dateOfBirth = $data["DOB"];
             $phoneNumber = $data["phoneNumber"];
             $password = $data["password"];

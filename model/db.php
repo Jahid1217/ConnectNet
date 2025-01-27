@@ -6,15 +6,8 @@ class myDB {
         $DBUser = "root";      
         $DBPassword = "";      
         $DBName = "connectnet";   
-
         // Create a connection object
         $connectionObject = new mysqli($DBHost, $DBUser, $DBPassword, $DBName);
-
-        // Check for connection errors
-        if ($connectionObject->connect_error) {
-            die("Connection failed: " . $connectionObject->connect_error);
-        }
-
         return $connectionObject;
     }
 
@@ -49,7 +42,23 @@ class myDB {
         $resutlts = $connectionObject->query($sql);
         return $resutlts;
     }
-    
+    function CustomerShowAll($connectionObject){
+        $sql = "SELECT * FROM customer";
+        $resutlts = $connectionObject->query($sql);
+        return $resutlts;
+    }
+
+    function EmployeeShowAll($connectionObject){
+        $sql = "SELECT * FROM employee";
+        $resutlts = $connectionObject->query($sql);
+        return $resutlts;
+    }
+    function SellerShowAll($connectionObject){
+        $sql = "SELECT * FROM seller";
+        $resutlts = $connectionObject->query($sql);
+        return $resutlts;
+    }
+    // Function to get user by id
     function getUserByID($tableName, $connectionObject, $id) {
         $sql = "SELECT * FROM $tableName WHERE id = ?";
         $stmt = $connectionObject->prepare($sql);
@@ -58,9 +67,97 @@ class myDB {
         $results = $stmt->get_result();
         return $results;
     }
+    // Function to get user by username
+    function getUserByUsername($tableName, $connectionObject, $username) {
+        $sql = "SELECT * FROM $tableName WHERE username = ?";
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $results = $stmt->get_result();
+        return $results;
+    }
+    function searchUserByUsernameByCostomer($connectionObject, $username) {
+        $sql = "SELECT * FROM customer WHERE username = ?";
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $results = $stmt->get_result();
+        return $results;
+    }
+    function searchUserByUsernameByEmployee($connectionObject, $username) {
+        $sql = "SELECT * FROM employee WHERE email = ?";
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $results = $stmt->get_result();
+        return $results;
+    }
+    function searchUserByIdByEmployee($connectionObject, $id) {
+        $sql = "SELECT * FROM employee WHERE employee_Id = ?";
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $results = $stmt->get_result();
+        return $results;
+    }
+    function searchUserByIdBySeller($connectionObject, $id) {
+        $sql = "SELECT * FROM seller WHERE seller_Id = ?";
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $results = $stmt->get_result();
+        return $results;
+    }
+    function searchUserByUsernameBySeller($connectionObject, $username) {
+        $sql = "SELECT * FROM seller WHERE email = ?";
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $results = $stmt->get_result();
+        return $results;
+    }
+
     // Function to delete a record from the database
     function deleteData($id, $tableName, $connectionObject){
         $sql = "DELETE FROM $tableName WHERE id =?";
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            $stmt->close();
+            return 1; // Success
+        } else {
+            $stmt->close();
+            return "Error executing statement: ". $stmt->error;
+        }
+    }
+    // Function to update a record in the database
+    
+    function customerDeleteData($id, $connectionObject){
+        $sql = "DELETE FROM customer WHERE customer_Id =?";
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            $stmt->close();
+            return 1; // Success
+        } else {
+            $stmt->close();
+            return "Error executing statement: ". $stmt->error;
+        }
+    }
+    function employeeDeleteData($id, $connectionObject){
+        $sql = "DELETE FROM employee WHERE employee_Id =?";
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            $stmt->close();
+            return 1; // Success
+        } else {
+            $stmt->close();
+            return "Error executing statement: ". $stmt->error;
+        }
+    }
+    function sellerDeleteData($id, $connectionObject){
+        $sql = "DELETE FROM seller WHERE seller_Id =?";
         $stmt = $connectionObject->prepare($sql);
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
@@ -94,10 +191,6 @@ class myDB {
                 WHERE id = ?";
         
         $stmt = $connectionObject->prepare($sql);
-        if ($stmt === false) {
-            return "Error preparing statement: " . $connectionObject->error;
-        }
-
         $stmt->bind_param(
             "sssssssssssssssi", 
             $Name, $email, $userName, $password, $dateOfBirth, $phoneNumber, $adminRole, $location, $profile_Picture, $referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $id
@@ -118,6 +211,74 @@ class myDB {
         $stmt->execute();
         $results = $stmt->get_result();
         return $results;
+    }
+    function updateSettingUser($Name, $userName, $email, $password, $dateOfBirth, $phoneNumber, $location, $profile_Picture, $tableName, $connectionObject) {
+        $sql = "UPDATE admin SET 
+                    name = ?, 
+                    email = ?, 
+                    password = ?, 
+                    DOB = ?, 
+                    phoneNumber = ?, 
+                    location = ?, 
+                    picture = ? 
+                WHERE username = ?";
+    
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param(
+            "ssssssss", 
+            $Name, $email, $password, $dateOfBirth, $phoneNumber, $location, $profile_Picture, $userName
+        );
+    
+        if ($stmt->execute()) {
+            $stmt->close();
+            return 1;
+        } else {
+            $error = "Error executing statement: " . $stmt->error;
+            $stmt->close();
+            return $error;
+        }
+    }
+    function employeeUpdateDataUser($id,$userName, $password,$connectionObject) {
+
+        $sql = "UPDATE employee SET 
+                    username = ?, 
+                    password = ? 
+                WHERE employee_Id = ?";
+        
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param(
+            "ssi", 
+            $userName, $password, $id
+        );
+        if ($stmt->execute()) {
+            $stmt->close();
+            return 1; 
+        } else {
+            $error = "Error executing statement: " . $stmt->error;
+            $stmt->close();
+            return $error;
+        }
+    }
+    function sellerUpdateDataUser($id,$userName, $password,$connectionObject) {
+
+        $sql = "UPDATE seller SET 
+                    username = ?, 
+                    password = ? 
+                WHERE seller_Id = ?";
+        
+        $stmt = $connectionObject->prepare($sql);
+        $stmt->bind_param(
+            "ssi", 
+            $userName, $password, $id
+        );
+        if ($stmt->execute()) {
+            $stmt->close();
+            return 1; 
+        } else {
+            $error = "Error executing statement: " . $stmt->error;
+            $stmt->close();
+            return $error;
+        }
     }
     // Function to login  in the database
     function login($userName, $password, $connectionObject) {

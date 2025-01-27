@@ -1,5 +1,5 @@
 function validateForm() {
-    
+    // Get form values
     var name = document.getElementById("name").value.trim();
     var username = document.getElementById("username").value.trim();
     var email = document.getElementById("email").value.trim();
@@ -19,132 +19,123 @@ function validateForm() {
     var terms = document.getElementById("terms").checked;
 
     // Error elements
-    var nameErr = document.getElementById("error_Name");
-    var userErr = document.getElementById("error_Username");
-    var emailErr = document.getElementById("error_email");
-    var dobErr = document.getElementById("error_dob");
-    var phoneErr = document.getElementById("error_phone");
-    var passErr = document.getElementById("error_password");
-    var conPassErr = document.getElementById("error_conPass");
-    var adminErr = document.getElementById("error_admin");
-    var addrErr = document.getElementById("error_address");
-    var fileErr = document.getElementById("error_file");
-    var refNameErr = document.getElementById("error_refName_One");
-    var refNameTwoErr = document.getElementById("error_refName_two");
-    var refEmailErr = document.getElementById("error_refEmail");
-    var refEmailTwoErr = document.getElementById("error_refEmail_two");
-    var refPhoneErr = document.getElementById("error_refPhone");
-    var refPhoneTwoErr = document.getElementById("error_refPhone_two");
-    var termsErr = document.getElementById("error_terms");
-  
+    const errors = {
+        nameErr: "error_Name",
+        userErr: "error_Username",
+        emailErr: "error_email",
+        dobErr: "error_dob",
+        phoneErr: "error_phone",
+        passErr: "error_password",
+        conPassErr: "error_conPass",
+        adminErr: "error_admin",
+        addrErr: "error_address",
+        fileErr: "error_file",
+        refNameErr: "error_refName_One",
+        refNameTwoErr: "error_refName_two",
+        refEmailErr: "error_refEmail",
+        refEmailTwoErr: "error_refEmail_two",
+        refPhoneErr: "error_refPhone",
+        refPhoneTwoErr: "error_refPhone_two",
+        termsErr: "error_terms",
+    };
+
     // Clear previous errors
-    nameErr.textContent = "";
-    userErr.textContent = "";
-    emailErr.textContent = "";
-    dobErr.textContent = "";
-    phoneErr.textContent = "";
-    passErr.textContent = "";
-    conPassErr.textContent = "";
-    adminErr.textContent = "";
-    addrErr.textContent = "";
-    fileErr.textContent = "";
-    refNameErr.textContent = "";
-    refNameTwoErr.textContent = "";
-    refEmailErr.textContent = "";
-    refEmailTwoErr.textContent = "";
-    refPhoneErr.textContent = "";
-    refPhoneTwoErr.textContent = "";
-    termsErr.textContent = "";
-  
+    Object.values(errors).forEach((id) => {
+        document.getElementById(id).textContent = "";
+    });
+
     let isValid = true;
-  
-    Validations
+
+    // Validations
     if (name.length < 3) {
-        nameErr.textContent = "Name must be at least 3 characters.";
+        document.getElementById(errors.nameErr).textContent = "Name must be at least 3 characters.";
         isValid = false;
     }
-  
+
     if (username.length < 3) {
-        userErr.textContent = "Username must be at least 3 characters.";
+        document.getElementById(errors.userErr).textContent = "Username must be at least 3 characters.";
         isValid = false;
     }
-  
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        emailErr.textContent = "Invalid email address.";
+        document.getElementById(errors.emailErr).textContent = "Invalid email address.";
         isValid = false;
     }
-  
+
     if (!dob) {
-        dobErr.textContent = "Date of Birth is required.";
+        document.getElementById(errors.dobErr).textContent = "Date of Birth is required.";
         isValid = false;
     }
-  
+
     if (!/^\d{11}$/.test(phone)) {
-        phoneErr.textContent = "Phone number must be exactly 11 digits and contain no letters or special characters.";
+        document.getElementById(errors.phoneErr).textContent =
+            "Phone number must be exactly 11 digits and contain no letters or special characters.";
         isValid = false;
     }
-    
-  
+
     if (password.length < 6) {
-        passErr.textContent = "Password must be at least 6 characters.";
+        document.getElementById(errors.passErr).textContent = "Password must be at least 6 characters.";
         isValid = false;
     }
-  
+
     if (password !== confirmPassword) {
-        conPassErr.textContent = "Passwords do not match.";
+        document.getElementById(errors.conPassErr).textContent = "Passwords do not match.";
         isValid = false;
     }
-  
+
     if (adminRole === "") {
-        adminErr.textContent = "Please select an admin role.";
+        document.getElementById(errors.adminErr).textContent = "Please select an admin role.";
         isValid = false;
     }
-  
-    if (address ==="") {
-        addrErr.textContent = "Address must be at least 10 characters.";
+
+    if (address.length < 3) {
+        document.getElementById(errors.addrErr).textContent = "Address must be at least 3 characters.";
         isValid = false;
     }
-  
+
     if (!file) {
-        fileErr.textContent = "Profile picture is required.";
+        document.getElementById(errors.fileErr).textContent = "Profile picture is required.";
         isValid = false;
     }
-  
-    if (refNameOne.length < 3 || refEmailOne.length === "") {
-        refNameErr.textContent = "Valid Reference 1 details are required.";
+
+    if (refNameOne.length < 3 || !emailRegex.test(refEmailOne)) {
+        document.getElementById(errors.refNameErr).textContent = "Valid Reference 1 details are required.";
         isValid = false;
     }
-  
-    if (refNameTwo.length < 3 || refEmailTwo.length === "") {
-        refNameTwoErr.textContent = "Valid Reference 2 details are required.";
+
+    if (refNameTwo.length < 3 || !emailRegex.test(refEmailTwo)) {
+        document.getElementById(errors.refNameTwoErr).textContent = "Valid Reference 2 details are required.";
         isValid = false;
     }
-  
+
     if (!/^\d{11}$/.test(refPhoneOne)) {
-        refPhoneErr.textContent = "Reference 1 phone number must be 11 digits.";
+        document.getElementById(errors.refPhoneErr).textContent = "Reference 1 phone number must be 11 digits.";
         isValid = false;
     }
-  
+
     if (!/^\d{11}$/.test(refPhoneTwo)) {
-        refPhoneTwoErr.textContent = "Reference 2 phone number must be 11 digits.";
+        document.getElementById(errors.refPhoneTwoErr).textContent = "Reference 2 phone number must be 11 digits.";
         isValid = false;
     }
-  
+
     if (!terms) {
-        termsErr.textContent = "You must agree to the Terms and Conditions.";
+        document.getElementById(errors.termsErr).textContent = "You must agree to the Terms and Conditions.";
         isValid = false;
     }
-  
+
     // Final validation result
     if (isValid) {
+        // alert("Form successfully submitted!");
+        header("Location:../view/admin.php");
         header("Location:../view/login.php");
-      return true;
+        return true;
     } else {
-      return false;
+        // alert("Please correct the errors in the form.");
+        return false;
     }
-  }
-  
+}
+
 
   function searchUser() {
     var uname = document.getElementById("search").value.trim(); 
@@ -163,3 +154,82 @@ function validateForm() {
     xhr.send();
 }
 
+// Get references to the input and preview elements
+const profileInput = document.getElementById('profileInput');
+const profilePreview = document.querySelector('.profile-picture img');
+
+// Check if the elements exist before adding event listeners
+if (profileInput && profilePreview) {
+    profileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        
+        // Ensure a file is selected and check if it is an image
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+
+            // Load the file and update the preview
+            reader.onload = (e) => {
+                profilePreview.src = e.target.result;
+            };
+
+            reader.onerror = () => {
+                alert('Failed to read the file. Please try again.');
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            alert('Please select a valid image file.');
+        }
+    });
+} else {
+    // console.error('Profile input or preview element not found.');
+}
+
+
+function searchUserCustomer() {
+    var uname = document.getElementById("customerUser").value.trim(); 
+      if (uname === "") {
+        document.getElementById("customerPrint").innerHTML = ""; 
+        return;
+    }
+    var xhr = new XMLHttpRequest(); 
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("customerPrint").innerHTML = this.responseText; 
+        }
+    };
+    xhr.open("GET", "../control/customer_searchUser_control.php?uname=" + uname, true); 
+    xhr.send();
+}
+
+function searchUserCustomer() {
+    var uname = document.getElementById("employeeUser").value.trim(); 
+      if (uname === "") {
+        document.getElementById("employeePrint").innerHTML = ""; 
+        return;
+    }
+    var xhr = new XMLHttpRequest(); 
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("employeePrint").innerHTML = this.responseText; 
+        }
+    };
+    xhr.open("GET", "../control/employee_searchUser_control.php?uname=" + uname, true); 
+    xhr.send();
+}
+
+function searchUserCustomer() {
+    var uname = document.getElementById("sellerUser").value.trim(); 
+      if (uname === "") {
+        document.getElementById("sellerPrint").innerHTML = ""; 
+        return;
+    }
+    var xhr = new XMLHttpRequest(); 
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("sellerPrint").innerHTML = this.responseText; 
+        }
+    };
+    xhr.open("GET", "../control/seller_searchUser_control.php?uname=" + uname, true); 
+    xhr.send();
+}

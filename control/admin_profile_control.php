@@ -3,16 +3,16 @@
 include '../model/db.php';
 
 // Validate and sanitize the input
-if (isset($_GET["id"])) {
-    $id = intval($_GET["id"]); // Convert the id to an integer for safety
+if (isset($_GET["username"])) {
+    $username = ($_GET["username"]); 
 
     $mydb = new myDB();
     $conobj = $mydb->openCon();
-    $results = $mydb->getUserByID("admin", $conobj, $id);
+    $results = $mydb->getUserByUsername("admin", $conobj, $username);
 
     if ($results && $results->num_rows > 0) {
         while ($data = $results->fetch_assoc()) {
-           $id = $data["id"];
+        
             $Name = $data["name"];
             $email = $data["email"];
             $userName = $data["username"];
@@ -21,7 +21,7 @@ if (isset($_GET["id"])) {
             $password = $data["password"];
             $adminRole = $data["adminRole"];
             $location = $data["location"];
-            $profile_Picture = "<img src='../uplodefile/" . htmlspecialchars($data['picture'], ENT_QUOTES, 'UTF-8') . "' alt='Profile Picture' id='User_Show_Pic'>";
+            $profile_Picture = "<img src='../uplodefile/" . htmlspecialchars($data['picture']) . "' alt='Profile Picture' id='User_Show_Pic'>";
             $referenceName = $data["referenceName"];
             $referenceEmail = $data["referenceEmail"];
             $referencePhone = $data["referencePhone"];
@@ -36,18 +36,5 @@ if (isset($_GET["id"])) {
     $conobj->close();
 } else {
     echo "Invalid ID provided.";
-}
-if (isset($_POST["delete"])) {
-    $id = $_POST["id"];
-    
-    $mydb = new myDB();
-    $conobj = $mydb->openCon();
-    $update = $mydb->deleteData($id, "admin", $conobj);
-    if ($update === 1) {
-        echo "Data delete successfully";
-        header("Location:../view/showuser.php");
-    } else {
-        echo "Error deleteing data: " . $update;
-    }
 }
 ?>

@@ -11,7 +11,18 @@ include '../control/edituser_control.php';
     <link rel="stylesheet" href="../styles/styles.css">
     <title>Edit User</title>
 </head>
-<body id="edit_user_body">
+<body >
+<div class="navbar">
+        <div class="logo">
+            <a href="home.php">Home</a>
+        </div>
+        <div class="nav-links">
+            <a href=""></a>
+            <a href="admin_profile.php?username=<?php echo($_SESSION['user_name']); ?>">Profile</a>
+            <a href="profileSetting.php?username=<?php echo($_SESSION['user_name']); ?>">Settings</a>
+        </div>
+    </div>
+    <div id="edit_user_body">
 <form  id="edit_user_from"action="" method="post" enctype="multipart/form-data">
         <h1 id="edit_user_h1">Edit User</h1>
         <label for="ID">ID:</label>
@@ -53,11 +64,11 @@ include '../control/edituser_control.php';
             <option value="Support_Admin">Support Admin</option>
             <option value="General_Admin">General Admin</option>
         </select>
-
-        <label for="profile">Profile Picture:</label><br>
-        <img src="../uplodefile/<?php echo $profile_Picture; ?>" alt="Profile Picture" style="width: 50px; height: 50px;"><br>
-        <input type="file" id="profile" name="profile"><br>
-
+        <br>
+        <div class="profile-picture">
+            <img src="../uplodefile/<?php echo htmlspecialchars($profile_Picture); ?>" alt="Profile Picture" >
+            <input type="file" name="profile" id="profileInput"  value="<?php echo htmlspecialchars($profile_Picture); ?>" >
+            </div>
         <label for="reference_name">Reference One Name:</label>
         <input type="text" id="reference_name" name="reference_name" value="<?php echo $referenceName; ?>">
         <div class="error" id="error_reference_name"></div>
@@ -81,8 +92,9 @@ include '../control/edituser_control.php';
         <label for="reference_phone_two">Reference Two Phone:</label>
         <input type="text" id="reference_phone_two" name="reference_phone_two" value="<?php echo $referencePhoneTwo; ?>">
         <input  type="submit" value="Update" name="update">
+        <a  class ="editUser_back"href="showuser.php">Back to User List</a>
     </form>
-    <a href="showuser.php">Back to User List</a>
+    </div>
     <script src="../js/myScript.js"></script>
 </body>
 </html>

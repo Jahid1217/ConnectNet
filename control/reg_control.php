@@ -16,7 +16,7 @@ $profilePictureError = "";
 $termsError = "";
 $referenceOneError = "";
 $referenceTwoError = "";
-
+if (isset($_POST["submit"])){
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $Name = trim($_REQUEST["Name"] ?? "");
@@ -171,6 +171,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    
+}
 
 ?>

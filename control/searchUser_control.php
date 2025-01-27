@@ -15,7 +15,7 @@
                 echo "<tr><th>DOB</th><td>" . htmlspecialchars($row['DOB']) . "</td></tr>";
                 echo "<tr><th>Address</th><td>" . htmlspecialchars($row['location']) . "</td></tr>";
                 echo "<tr><th>Phone</th><td>" . htmlspecialchars($row['phoneNumber']) . "</td></tr>";
-                echo "<tr><th>Username</th><td>" . htmlspecialchars($row['userName']) . "</td></tr>";
+                echo "<tr><th>Username</th><td>" . htmlspecialchars($row['username']) . "</td></tr>";
                 echo "<tr><th>Role</th><td>" . htmlspecialchars($row['adminRole']) . "</td></tr>";
                 echo "<tr><th>Location</th><td>" . htmlspecialchars($row['location']) . "</td></tr>";
                 echo "<tr><th>Profile Picture</th><td>
