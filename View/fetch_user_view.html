@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch User</title>
+</head>
+<body>
+    <h1>Fetch User by ID and Name</h1>
+
+    <!-- Input Fields -->
+    <label for="seller_Id">Seller ID:</label>
+    <input type="number" id="seller_Id" placeholder="Enter Seller ID">
+    <br>
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Enter Name">
+    <br>
+
+    <!-- Button -->
+    <button onclick="fetchUser()">Fetch User</button>
+
+    <!-- Result Section -->
+    <div id="result" style="margin-top: 20px;"></div>
+
+    <!-- Inline JavaScript -->
+    <script>
+        function fetchUser() {
+            const sellerId = document.getElementById("seller_Id").value;
+            const name = document.getElementById("name").value;
+
+            if (sellerId && name) {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", `../control/fetch_user_control.php?seller_Id=${sellerId}&name=${name}`, true);
+
+                xhr.onload = function () {
+                    console.log("Response received:", xhr.responseText); // Debugging line
+
+                    if (xhr.status === 200) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            
+                            if (response.status === "success") {
+                                document.getElementById("result").innerHTML = `
+                                    <p><strong>ID:</strong> ${response.data.seller_Id}</p>
+                                    <p><strong>Name:</strong> ${response.data.name}</p>
+                                    <p><strong>Email:</strong> ${response.data.email}</p>
+                                    <p><strong>Phone:</strong> ${response.data.phoneNumber}</p>
+                                `;
+                            } else {
+                                document.getElementById("result").innerText = response.message;
+                            }
+                        } catch (error) {
+                            document.getElementById("result").innerText = "Error parsing server response.";
+                            console.error("Parsing error:", error);
+                        }
+                    } else {
+                        document.getElementById("result").innerText = "Error fetching data.";
+                    }
+                };
+
+                xhr.onerror = function () {
+                    console.error("AJAX request failed.");
+                    document.getElementById("result").innerText = "AJAX request failed.";
+                };
+
+                xhr.send();
+            } else {
+                document.getElementById("result").innerText = "Please enter both ID and name.";
+            }
+        }
+    </script>
+</body>
+</html>
