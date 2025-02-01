@@ -1,0 +1,180 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('../images/customer_background.jpg'); /* Attach an image as the background */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+h1 {
+    text-align: center;
+    color: peru;
+    margin-top: 20px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+/* Table Styles */
+table {
+    width: 30%;
+    margin: 20px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.6); /* Slightly transparent background */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+td {
+    padding: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 5px; /* Rounded borders for cells */
+}
+
+tr:nth-child(odd) {
+    background-color: rgba(144, 238, 144, 0.5); /* Light green */
+}
+
+tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.3); /* More transparent white */
+}
+
+/* Input Fields */
+input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea, select {
+    width: calc(100% - 30px);
+    padding: 3px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+/* Buttons Styling */
+button, input[type="submit"], input[type="reset"] {
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds depth */
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Success and Error Messages */
+.success-message {
+    text-align: center;
+    color: green;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.error-message {
+    text-align: center;
+    color: red;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+/* Specific Button Styles */
+.view-customers-btn {
+    background-color: blue;
+    color: white;
+}
+
+.view-customers-btn:hover {
+    background-color: darkblue;
+}
+
+.view-details-btn {
+    background-color: green;
+    color: white;
+}
+
+.view-details-btn:hover {
+    background-color: darkgreen;
+}
+
+/* Form Positioning */
+form {
+    position: relative;
+    width: 40%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Textarea */
+textarea {
+    resize: none;
+}
+
+/* Responsive Fix for Small Screens */
+@media screen and (max-width: 600px) {
+    table {
+        width: 80%;
+    }
+
+    input[type="text"], input[type="email"], input[type="tel"], textarea, select {
+        width: calc(100% - 10px);
+    }
+
+    button, input[type="submit"], input[type="reset"] {
+        width: 100%;
+    }
+}
+
+/* Align Buttons Using Inline Styles */
+button {
+    display: inline-block;
+    text-align: center;
+    margin: 5px auto;
+    min-width: 120px; /* Ensure buttons have consistent width */
+}
+/* Table Styles */
+table {
+    width: 50%;
+    margin: auto;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Buttons */
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.proceed-button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.proceed-button:hover {
+    background-color: darkgreen;
+}
