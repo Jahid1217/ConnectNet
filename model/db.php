@@ -11,7 +11,7 @@ class myDB {
         return $connectionObject;
     }
 
-    public function insertData( $Name, $email, $password,$userName, $dateOfBirth, $phoneNumber, $adminRole, $location, $profile_Picture, $referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $connectionObject) 
+    public function insertData( $Name, $email,$userName, $password, $dateOfBirth, $phoneNumber, $adminRole, $location, $profile_Picture, $referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $connectionObject) 
     {
         // Corrected SQL query with 12 placeholders
         $sql = "INSERT INTO admin (name, email,username,password, DOB, phoneNumber, adminRole, location, picture, referenceName, referenceEmail, referencePhone, referenceNameTwo, referenceEmailTwo, referencePhoneTwo) 
@@ -170,7 +170,7 @@ class myDB {
     }
 
     // Function to update a record in the database
-    function updateDataUser($id, $Name, $email, $userName, $password, $dateOfBirth, $phoneNumber, $adminRole, $location, $profile_Picture, $referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $tableName, $connectionObject) {
+    function updateDataUser($id, $Name, $email, $userName, $password, $dateOfBirth, $phoneNumber, $location,$referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $tableName, $connectionObject) {
 
         $sql = "UPDATE $tableName SET 
                     name = ?, 
@@ -178,10 +178,8 @@ class myDB {
                     username = ?, 
                     password = ?, 
                     DOB = ?, 
-                    phoneNumber = ?, 
-                    adminRole = ?, 
+                    phoneNumber = ?,
                     location = ?, 
-                    picture = ?, 
                     referenceName = ?, 
                     referenceEmail = ?, 
                     referencePhone = ?, 
@@ -192,8 +190,8 @@ class myDB {
         
         $stmt = $connectionObject->prepare($sql);
         $stmt->bind_param(
-            "sssssssssssssssi", 
-            $Name, $email, $userName, $password, $dateOfBirth, $phoneNumber, $adminRole, $location, $profile_Picture, $referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $id
+            "sssssssssssssi", 
+            $Name, $email, $userName, $password, $dateOfBirth, $phoneNumber, $location,$referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $id
         );
         if ($stmt->execute()) {
             $stmt->close();
@@ -238,18 +236,20 @@ class myDB {
             return $error;
         }
     }
-    function employeeUpdateDataUser($id,$userName, $password,$connectionObject) {
-
+    function employeeUpdateDataUser($id, $userName, $password, $status, $connectionObject) {
         $sql = "UPDATE employee SET 
                     username = ?, 
-                    password = ? 
+                    password = ?, 
+                    status = ? 
                 WHERE employee_Id = ?";
-        
+    
         $stmt = $connectionObject->prepare($sql);
-        $stmt->bind_param(
-            "ssi", 
-            $userName, $password, $id
-        );
+        if (!$stmt) {
+            return "Error preparing statement: " . $connectionObject->error;
+        }
+    
+        $stmt->bind_param("sssi", $userName, $password, $status, $id);
+    
         if ($stmt->execute()) {
             $stmt->close();
             return 1; 
@@ -259,18 +259,21 @@ class myDB {
             return $error;
         }
     }
-    function sellerUpdateDataUser($id,$userName, $password,$connectionObject) {
-
+    
+    function sellerUpdateDataUser($id, $userName, $password, $status, $connectionObject) {
         $sql = "UPDATE seller SET 
                     username = ?, 
-                    password = ? 
+                    password = ?, 
+                    status = ? 
                 WHERE seller_Id = ?";
-        
+    
         $stmt = $connectionObject->prepare($sql);
-        $stmt->bind_param(
-            "ssi", 
-            $userName, $password, $id
-        );
+        if (!$stmt) {
+            return "Error preparing statement: " . $connectionObject->error;
+        }
+    
+        $stmt->bind_param("sssi", $userName, $password, $status, $id);
+    
         if ($stmt->execute()) {
             $stmt->close();
             return 1; 
@@ -280,6 +283,7 @@ class myDB {
             return $error;
         }
     }
+    
     // Function to login  in the database
     function login($userName, $password, $connectionObject) {
         $sql = "SELECT username, role FROM (
@@ -302,6 +306,27 @@ class myDB {
         } else {
             die("Query preparation failed: " . $connectionObject->error);
         }
+    }
+
+    public function numberOfAdmin($conn) {
+        $sql = "SELECT COUNT(*) as count FROM admin"; // Change 'admin' to your actual admin table name
+        $result = $conn->query($sql);
+        return $result;
+    }
+
+    public function numberOfCustomer($conn) {
+        $sql = "SELECT COUNT(*) as count FROM customer"; // Adjust table name if needed
+        return $conn->query($sql);
+    }
+
+    public function numberOfseller($conn) {
+        $sql = "SELECT COUNT(*) as count FROM seller"; // Adjust table name if needed
+        return $conn->query($sql);
+    }
+
+    public function numberOfEmployee($conn) {
+        $sql = "SELECT COUNT(*) as count FROM employee"; // Adjust table name if needed
+        return $conn->query($sql);
     }
     
     // Function to close the database connection

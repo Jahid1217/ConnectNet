@@ -6,8 +6,9 @@ session_start();
 $hasError = 0;
 $userNameError = "";
 $passwordError = "";
-$termsError = "";
-$roleError = "";
+$failedLogin = "" ;
+// $termsError = "";
+// $roleError = "";
 
 // Validate and sanitize the input
 
@@ -29,14 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hasError++;
     }
     
-    if (empty($_REQUEST["terms"])) {
-        $termsError = "You must agree to the terms and conditions.";
+    // if (empty($_REQUEST["terms"])) {
+    //     $termsError = "You must agree to the terms and conditions.";
         
-    }
-    if (!isset($_REQUEST["terms"])) {
-        $termsError = "You must agree to the terms and conditions.";
+    // }
+    // if (!isset($_REQUEST["terms"])) {
+    //     $termsError = "You must agree to the terms and conditions.";
         
-    }
+    // }
     
     $tableName = "admin";
 
@@ -66,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit();
             }
         } else {
-            echo "Invalid username or password";
+            $failedLogin = "Invalid username or password";
         }
         $myDB->closeCon($connectionObject);
         // if ($result == 1) {

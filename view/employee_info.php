@@ -24,8 +24,8 @@
     ?>
     <br>
     <h2>Employee Data</h2>
-    <label for="name">Name:</label>
-    <input type="text" name="name" value="" id="employeeUser" onkeyup="searchUserCustomer()"  >
+    <label for="name">Search by Email:</label>
+    <input type="text" name="name" value="" id="employeeUser" onkeyup="searchUserEmployee()"  >
     <p id="employeePrint"></p>
     <br>
     <a  class="butt1" href="../control/session_Logout.php">Logout</a>

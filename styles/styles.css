@@ -351,6 +351,7 @@ label{
 .navbar a:hover {
     text-decoration: underline;
 }
+
 .container {
     max-width: 900px;
     margin: 2rem auto;
@@ -372,7 +373,7 @@ img {
 .links {
     text-align: center;
 }
-.links a {
+.links a  {
     display: inline-block;
     margin: 0.5rem;
     padding: 0.5rem 1rem;
@@ -384,6 +385,15 @@ img {
 .links a:hover {
     background: #bbb;
 }
+.links label{
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 20px;
+    color: #333;
+    background: #32d3fc;
+    border-radius: 4px;
+    text-decoration: none;
+} 
 .logout {
     text-align: center;
     margin-top: 2rem;

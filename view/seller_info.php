@@ -23,9 +23,9 @@
         include '../control/seller_showUser_control.php';
     ?>
     <br>
-    <h2>Employee Data</h2>
-    <label for="name">Name:</label>
-    <input type="text" name="name" value="" id="sellerUser" onkeyup="searchUserCustomer()"  >
+    <h2>Seller Data</h2>
+    <label for="name">Search by Email :</label>
+    <input type="text" name="name" value="" id="sellerUser" onkeyup="searchUserSeller()"  >
     <p id="sellerPrint"></p>
     <br>
     <a  class="butt1" href="../control/session_Logout.php">Logout</a>

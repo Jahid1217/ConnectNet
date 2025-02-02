@@ -15,6 +15,7 @@ echo "<h1>Employee Information</h1>";
                         <th>Email</th>
                         <th>User Name</th>
                         <th>Role</th>
+                        <th>Status</th>
                     </tr>
                 </thead>";
             echo "<tbody>";
@@ -26,6 +27,7 @@ echo "<h1>Employee Information</h1>";
                 echo "<td>" . $data['email'] . "</td>";
                 echo "<td>" . $data['username'] . "</td>";
                 echo "<td>" . $data['role'] . "</td>";
+                echo "<td>" . $data['status'] . "</td>";
                 echo "<td><a href='../view/employee_approve.php?id=" . $data["employee_Id"] . "'>Approve</a></td>";
                 echo "<td><a href='../control/employee_delete_control.php?id=" . $data["employee_Id"] . "'>Delete</a></td>";
                 echo "</tr>";

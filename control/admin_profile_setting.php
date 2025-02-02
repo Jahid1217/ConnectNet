@@ -29,14 +29,14 @@ if (isset($_GET["username"])) {
 }
 
 if (isset($_POST["update"])) {
-    $Name = htmlspecialchars($_POST["name"]);
-    $email = htmlspecialchars($_POST["email"]);
-    $dateOfBirth = htmlspecialchars($_POST["dob"]);
-    $phoneNumber = htmlspecialchars($_POST["phone"]);
-    $password = htmlspecialchars($_POST["password"]);
-    $location = htmlspecialchars($_POST["address"]);
+    $Name = ($_POST["name"]);
+    $email = ($_POST["email"]);
+    $dateOfBirth = ($_POST["dob"]);
+    $phoneNumber = ($_POST["phone"]);
+    $password = ($_POST["password"]);
+    $location = ($_POST["address"]);
     $profilePicture = $_FILES["profile"]["name"];
-    $userName = htmlspecialchars($_POST["username"]);
+    $userName = ($_POST["username"]);
 
     if (empty($Name) || empty($email) || empty($dateOfBirth) || empty($phoneNumber) || empty($password) || empty($location)) {
         echo "Please fill in all fields.";

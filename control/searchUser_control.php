@@ -19,7 +19,7 @@
                 echo "<tr><th>Role</th><td>" . htmlspecialchars($row['adminRole']) . "</td></tr>";
                 echo "<tr><th>Location</th><td>" . htmlspecialchars($row['location']) . "</td></tr>";
                 echo "<tr><th>Profile Picture</th><td>
-                      <img src='../uplodefile/" . htmlspecialchars($row['picture'], ENT_QUOTES, 'UTF-8') . "' alt='Profile Picture' id='User_Show_Pic'></td></tr>";
+                      <img src='../uplodefile/" . htmlspecialchars($row['picture']) . "' alt='Profile Picture' id='User_Show_Pic'></td></tr>";
                 echo "<tr><th>Reference Name</th><td>" . htmlspecialchars($row['referenceName']) . "</td></tr>";
                 echo "<tr><th>Reference Email</th><td>" . htmlspecialchars($row['referenceEmail']) . "</td></tr>";
                 echo "<tr><th>Reference Phone</th><td>" . htmlspecialchars($row['referencePhone']) . "</td></tr>";

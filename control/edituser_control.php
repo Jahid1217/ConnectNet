@@ -2,6 +2,7 @@
 
 include '../model/db.php';
 
+$dataMiss="";
 // Validate and sanitize the input
 if (isset($_GET["id"])) {
     $id = intval($_GET["id"]); // Convert the id to an integer for safety
@@ -46,9 +47,7 @@ if (isset($_POST["update"])){
     $dateOfBirth = $_POST["dob"];
     $phoneNumber = $_POST["phone"];
     $password = $_POST["password"];
-    $adminRole = $_POST["role"];
     $location = $_POST["address"];
-    $profile_Picture = $_POST["profile"];
     $referenceName = $_POST["reference_name"];
     $referenceEmail = $_POST["reference_email"];
     $referencePhone = $_POST["reference_phone"];
@@ -56,14 +55,19 @@ if (isset($_POST["update"])){
     $referenceEmailTwo = $_POST["reference_email_two"];
     $referencePhoneTwo = $_POST["reference_phone_two"];
     
+    // add validation 
+    if(empty($Name) || empty($email) || empty($userName) || empty($password) || empty($dateOfBirth) || empty($phoneNumber) || empty($location) || empty($referenceName) || empty($referenceEmail) || empty($referencePhone) || empty($referenceNameTwo) || empty($referenceEmailTwo) || empty($referencePhoneTwo)){
+        $dataMiss= "All fields are required";
+    }else{
     $mydb = new myDB();
     $conobj = $mydb->openCon();
-    $update = $mydb->updateDataUser($id,$Name, $email,$userName,$password, $dateOfBirth, $phoneNumber, $adminRole, $location, $profile_Picture, $referenceName,$referenceEmail,$referencePhone, $referenceNameTwo,$referenceEmailTwo, $referencePhoneTwo, "admin", $conobj);
+    $update = $mydb->updateDataUser($id,$Name, $email,$userName,$password, $dateOfBirth, $phoneNumber,$location, $referenceName,$referenceEmail,$referencePhone, $referenceNameTwo,$referenceEmailTwo, $referencePhoneTwo, "admin", $conobj);
     if ($update === 1) {
         echo "Data updated successfully";
         header("Location:../view/showuser.php");
     } else {
         echo "Error updating data: " . $update;
     }
+}
 }
 ?>

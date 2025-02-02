@@ -24,7 +24,7 @@
     ?>
     <br>
     <h2>User Data</h2>
-    <label for="name">Name:</label>
+    <label for="name">Search by Name:</label>
     <input type="text" name="name" value="" id="search" onkeyup="searchUser()"  >
     <p id="print"></p>
     <br>

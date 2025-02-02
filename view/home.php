@@ -1,4 +1,5 @@
 <?php
+include '../control/home_control.php';
 session_start();
 if (!isset($_SESSION["user_name"])) {
     header("location:../view/admin.php");
@@ -32,7 +33,20 @@ if (!isset($_SESSION["user_name"])) {
         </div>
 
         <img src="../uplodefile/logo.png" alt="Logo">
+        
+        <div class="links">
+            <label for="">Number of Admin: 
+            <span id="adminCount"><?php  echo $numAdmin?> </span></label>
 
+            <label for="">Number of Employee: 
+            <span id="employeeCount"><?php  echo $numemp ?></span></label>
+            
+            <label for="">Number of Seller: 
+            <span id="sellerCount"><?php  echo $numSeller?></span></label>
+            
+            <label for="">Number of Customer: 
+            <span id="customerCount"><?php  echo $numCustomer?></span></label>
+        </div>
         <div class="links">
             <a href="showuser.php">Admin Database List</a>
             <a href="employee_info.php">Employee Database List</a>

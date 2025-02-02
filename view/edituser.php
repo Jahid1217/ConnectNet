@@ -23,10 +23,10 @@ include '../control/edituser_control.php';
         </div>
     </div>
     <div id="edit_user_body">
-<form  id="edit_user_from"action="" method="post" enctype="multipart/form-data">
+        <form  id="edit_user_from"action=""  onsubmit="return validateFormUpdateAdmin()" method="post" enctype="multipart/form-data">
         <h1 id="edit_user_h1">Edit User</h1>
         <label for="ID">ID:</label>
-        <input type="text" id="ID" name="id" value="<?php echo $id; ?>" readonly><br>
+        <input type="text" id="ID" name="id" value="<?php echo $id; ?>"><br>
         
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" value="<?php echo $Name; ?>">
@@ -55,20 +55,6 @@ include '../control/edituser_control.php';
         <label for="dob">Date of Birth:</label>
         <input type="date" id="dob" name="dob" value="<?php echo $dateOfBirth; ?>">
         <div class="error" id="error_dob"></div>
-
-        <label for="role">Role:</label>
-        <select id="role" name="role">
-            <option value="<?php echo $role; ?>"><?php echo $adminRole; ?></option>
-            <option value="Network_Admin">Network Admin</option>
-            <option value="Billing_Admin">Billing Admin</option>
-            <option value="Support_Admin">Support Admin</option>
-            <option value="General_Admin">General Admin</option>
-        </select>
-        <br>
-        <div class="profile-picture">
-            <img src="../uplodefile/<?php echo htmlspecialchars($profile_Picture); ?>" alt="Profile Picture" >
-            <input type="file" name="profile" id="profileInput"  value="<?php echo htmlspecialchars($profile_Picture); ?>" >
-            </div>
         <label for="reference_name">Reference One Name:</label>
         <input type="text" id="reference_name" name="reference_name" value="<?php echo $referenceName; ?>">
         <div class="error" id="error_reference_name"></div>
@@ -91,6 +77,7 @@ include '../control/edituser_control.php';
 
         <label for="reference_phone_two">Reference Two Phone:</label>
         <input type="text" id="reference_phone_two" name="reference_phone_two" value="<?php echo $referencePhoneTwo; ?>">
+        <p><?php echo $dataMiss?></p>
         <input  type="submit" value="Update" name="update">
         <a  class ="editUser_back"href="showuser.php">Back to User List</a>
     </form>

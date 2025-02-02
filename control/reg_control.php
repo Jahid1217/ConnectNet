@@ -16,7 +16,7 @@ $profilePictureError = "";
 $termsError = "";
 $referenceOneError = "";
 $referenceTwoError = "";
-if (isset($_POST["submit"])){
+if (isset($_POST["submit"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $Name = trim($_REQUEST["Name"] ?? "");
@@ -38,37 +38,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $referencePhoneTwo = trim($_REQUEST["reference_phone_two"] ?? "");
 
     $Name = $_REQUEST["Name"];
-    if (empty($Name) && !preg_match("/^[a-zA-Z-' ]*$/",$Name)) {
-        $NameError = "Please enter the last name.";
+    if (empty($Name) || !preg_match("/^[a-zA-Z-' ]*$/", $Name)) {
+        $NameError = "Please enter a valid name.";
         $hasError++;
-    }
+    }    
 
-    $email = $_REQUEST["email"];
-    if (empty($email) && preg_match("/@gmail\.com$/", $email)) {
-        $emailError = "Please enter an email.";
-        $hasError++;
-    }   
-
-    $userName = $_REQUEST["user_name"]; // Capture input from the request
-    if (empty($userName) || !preg_match("/^[a-zA-Z0-9_-]{3,20}$/", $userName)) {
-        $userNameError = "Please enter a valid username.";
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match("/@gmail\.com$/", $email)) {
+        $emailError = "Please enter a valid Gmail address.";
         $hasError++;
     }
     
-    $password = $_REQUEST["Password"];
-    if (empty($password) || !preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,}$/", $password)) {
-        $passwordError = "Please enter a password.";
+
+    $userName = $_REQUEST["user_name"]; 
+    if (empty($userName)) {
+        $userNameError = "Please enter a valid username.";
         $hasError++;
     }
-
-    $confirmPassword = $_REQUEST["confirm_password"];
-    if (empty($confirmPassword) || !preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,}$/", $confirmPassword)) {
-        $confirmPasswordError = "Please confirm the password.";
+    if (empty($password)) {
+        $passwordError = "Password cannot be empty.";
         $hasError++;
-    } elseif ($confirmPassword !== $password) {
+    } elseif (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,}$/", $password)) {
+        $passwordError = "Password must be at least 8 characters with one uppercase, one lowercase, and one special character.";
+        $hasError++;
+    }
+    
+    if ($confirmPassword) {
         $confirmPasswordError = "Confirm password must match the password.";
         $hasError++;
     }
+    
 
     $dateOfBirth = $_REQUEST["date_of_birth"];
     if (empty($dateOfBirth)) {
@@ -77,10 +75,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $phoneNumber = $_REQUEST["phone_number"];
-    if (empty($phoneNumber) && !preg_match('/^\d{11}$/', $phoneNumber)) {
-        $phoneNumberError = "Please enter a phone number.";
+    if (empty($phoneNumber) || !preg_match('/^\d{11}$/', $phoneNumber)) {
+        $phoneNumberError = "Please enter a valid 11-digit phone number.";
         $hasError++;
     }
+    
+    
 
     $adminRole = $_REQUEST["admin_role"];
     if (empty($adminRole)) {
@@ -93,6 +93,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     "../uplodefile/".$_FILES["profile_picture"]["name"]
     );
     
+    // if (isset($_FILES["profile_picture"]) && !empty($_FILES["profile_picture"]["name"])) {
+    //     $profile_Picture = $_FILES["profile_picture"]["name"];
+    //     $uploadPath = "../uplodefile/" . basename($profile_Picture);
+    
+    //     if (move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $uploadPath)) {
+    //         echo "File uploaded successfully!";
+    //     } else {
+    //         echo "File upload failed!";
+    //     }
+    // } else {
+    //     echo "No file uploaded!";
+    // }
+    
     
     $location = $_REQUEST["location"];
     if (empty($location)) {
@@ -103,8 +116,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!isset($_REQUEST["terms"])) {
         $termsError = "You must agree to the terms and conditions.";
-        
+        $hasError++;
     }
+    
 
     $referenceName = $_REQUEST["reference_name"];
     $referenceEmail = $_REQUEST["reference_email"];
@@ -115,60 +129,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($hasError === 0) {
-        echo $Name;
-        // $data = [
-        //     "first_Name" => $firstName,
-        //     "last_Name" => $lastName,
-        //     "email" => $email,
-        //     "user_name" => $userName,
-        //     "password" => $password,
-        //     "date_of_birth" => $dateOfBirth,
-        //     "phone_number" => $phoneNumber,
-        //     "admin_role" => $adminRole,
-        //     "location" => $location,
-        //     "profile_picture" => $fileName,
-        //     "reference_one" => [
-        //         "name" => $referenceName,
-        //         "email" => $referenceEmail,
-        //         "phone" => $referencePhone,
-        //     ],
-        //     "reference_two" => [
-        //         "name" => $referenceNameTwo,
-        //         "email" => $referenceEmailTwo,
-        //         "phone" => $referencePhoneTwo,
-        //     ]
-        // ];
-
-        // $json = json_encode($data); // Encode to JSON
-
-        // if (file_put_contents("../files/userdata.json", $json)) {
-        //     echo "Data saved successfully.";
-            
-        // } else {
-        //     echo "Failed to save data.";}
-        // $_SESSION["user_name"] =$_REQUEST["user_name"];
-        // $_SESSION["Password"] =$_REQUEST["Password"];
-        $tableName = "admin"; // Define the table name
+        $tableName = "admin"; 
         $myDB = new myDB();
         $connectionObject = $myDB->openCon();
-
-        $result = $myDB->insertData(
-            $Name, $email, $userName, $password, $dateOfBirth, $phoneNumber,$adminRole, $location, $profile_Picture, $referenceName, $referenceEmail, $referencePhone,$referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $connectionObject,$tableName
-        );
-        $myDB->closeCon($connectionObject);
-
-        if ($result === 1) {
-            // $_SESSION["user_name"] = $userName;
-            // $_SESSION["Password"] = $password;
-            header("Location: ../view/login.php");
-            exit;
+    
+        if ($connectionObject) {
+            $result = $myDB->insertData(
+                $Name, $email, $userName, $password, $dateOfBirth, $phoneNumber, $adminRole, $location, $profile_Picture,
+                $referenceName, $referenceEmail, $referencePhone, $referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo,
+                $connectionObject, $tableName
+            );
+            
+            $myDB->closeCon($connectionObject);
+    
+            if ($result === 1) {
+                header("Location: ../view/login.php");
+                exit;
+            } else {
+                echo "Error inserting data into the database.";
+            }
         } else {
-            echo "Error inserting data into the database.";
+            echo "Database connection failed.";
         }
-        }
-        else{
-            return 0;
-        }
+    }
+    
+    // if ($hasError === 0) {
+    //     echo $Name;
+    //     // $data = [
+    //     //     "first_Name" => $firstName,
+    //     //     "last_Name" => $lastName,
+    //     //     "email" => $email,
+    //     //     "user_name" => $userName,
+    //     //     "password" => $password,
+    //     //     "date_of_birth" => $dateOfBirth,
+    //     //     "phone_number" => $phoneNumber,
+    //     //     "admin_role" => $adminRole,
+    //     //     "location" => $location,
+    //     //     "profile_picture" => $fileName,
+    //     //     "reference_one" => [
+    //     //         "name" => $referenceName,
+    //     //         "email" => $referenceEmail,
+    //     //         "phone" => $referencePhone,
+    //     //     ],
+    //     //     "reference_two" => [
+    //     //         "name" => $referenceNameTwo,
+    //     //         "email" => $referenceEmailTwo,
+    //     //         "phone" => $referencePhoneTwo,
+    //     //     ]
+    //     // ];
+
+    //     // $json = json_encode($data); // Encode to JSON
+
+    //     // if (file_put_contents("../files/userdata.json", $json)) {
+    //     //     echo "Data saved successfully.";
+            
+    //     // } else {
+    //     //     echo "Failed to save data.";}
+    //     // $_SESSION["user_name"] =$_REQUEST["user_name"];
+    //     // $_SESSION["Password"] =$_REQUEST["Password"];
+    //     $tableName = "admin"; // Define the table name
+    //     $myDB = new myDB();
+    //     $connectionObject = $myDB->openCon();
+
+    //     $result = $myDB->insertData(
+    //         $Name, $email, $userName, $password, $dateOfBirth, $phoneNumber,$adminRole, $location, $profile_Picture, $referenceName, $referenceEmail, $referencePhone,$referenceNameTwo, $referenceEmailTwo, $referencePhoneTwo, $connectionObject,$tableName
+    //     );
+    //     $myDB->closeCon($connectionObject);
+
+    //     if ($result === 1) {
+    //         // $_SESSION["user_name"] = $userName;
+    //         // $_SESSION["Password"] = $password;
+    //         header("Location: ../view/login.php");
+    //         exit;
+    //     } else {
+    //         echo "Error inserting data into the database.";
+    //     }
+    //     }
+    //     else{
+    //         return 0;
+    //     }
     }
 
 }

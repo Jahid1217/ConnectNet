@@ -34,10 +34,11 @@ if (isset($_POST["update"])){
     $id = $_POST["id"];
     $userName = $_POST["username"];
     $password = $_POST["password"];
+    $status = "approved";
     
     $mydb = new myDB();
     $conobj = $mydb->openCon();
-    $update = $mydb->employeeUpdateDataUser($id,$userName,$password, $conobj);
+    $update = $mydb->employeeUpdateDataUser($id,$userName,$password,$status, $conobj);
     if ($update === 1) {
         echo "Data updated successfully";
         header("Location:../view/employee_info.php");

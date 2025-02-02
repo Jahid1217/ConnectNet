@@ -21,7 +21,7 @@ if (isset($_GET["id"])) {
             $password = $data["password"];
             $adminRole = $data["adminRole"];
             $location = $data["location"];
-            $profile_Picture = "<img src='../uplodefile/" . htmlspecialchars($data['picture'], ENT_QUOTES, 'UTF-8') . "' alt='Profile Picture' id='User_Show_Pic'>";
+            $profile_Picture = "<img src='../uplodefile/" . htmlspecialchars($data['picture']) . "' alt='Profile Picture' id='User_Show_Pic'>";
             $referenceName = $data["referenceName"];
             $referenceEmail = $data["referenceEmail"];
             $referencePhone = $data["referencePhone"];
