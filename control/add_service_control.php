@@ -24,29 +24,6 @@
             font-size: 1.2em;
             margin-bottom: 30px;
         }
-        .confirmation-container button {
-            margin: 10px 5px;
-            padding: 10px 20px;
-            font-size: 1em;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .confirmation-container button.view-services {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .confirmation-container button.view-services:hover {
-            background-color: #45a049;
-        }
-        .confirmation-container button.view-specific-service {
-            background-color: #008CBA;
-            color: white;
-        }
-        .confirmation-container button.view-specific-service:hover {
-            background-color: #007BB5;
-        }
     </style>
 </head>
 <body>
@@ -67,18 +44,18 @@
             if (empty($speed) || empty($charge)) {
                 echo "<h1 style='color: red;'>Empty Field</h1>";
                 echo "<p class='error-message'>Please enter speed and charge.</p>";
-                echo "<a href='../view/add_service.php?seller_Id={$serviceId}'><button class='view-specific-service'>Go Back</button></a>";
+                echo "<a href='../view/add_service.php?seller_Id={$serviceId}'><button>Go Back</button></a>";
                 exit;
             }
+
             $db = new MyDB();
 
             if ($db->insertService($serviceId, $serviceName, $serviceType, $phoneNumber, $servicePlan, $speed, $charge, $location)) {
-                echo "<h1>Service Added Successfully!</h1>";
-                echo "<p>Your service has been successfully added to the database.</p>";
-                echo "<div>";
-                echo "<a href='../view/service.php'><button class='view-services'>View All Services</button></a>";
-                echo "<a href='../view/specific_service.php?seller_Id={$serviceId}'><button class='view-specific-service'>View Your Service</button></a>";
-                echo "</div>";
+                echo "<script>
+                        alert('Registration successful! Please log in to your account.');
+                        window.location.href = '../view/login.php';
+                      </script>";
+                exit;
             } else {
                 echo "<h1 style='color: red;'>Failed to Add Service</h1>";
                 echo "<p>Something went wrong while adding your service. Please try again later.</p>";

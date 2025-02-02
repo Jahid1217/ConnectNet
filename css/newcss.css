@@ -87,7 +87,7 @@ button[type="submit"]:hover {
     }
 }
 .service-table {
-    width: 80%; /* Table width */
+    width: 60%; /* Table width */
     margin: 20px auto; /* Center table */
     padding: 20px;
     border-collapse: collapse; /* Remove space between table cells */

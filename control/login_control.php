@@ -10,74 +10,58 @@ $termsError = "";
 $roleError = "";
 
 // Validate and sanitize the input
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $userName = trim($_REQUEST["user_name"] ?? "");
-    $password = $_REQUEST["Password"] ?? "";
+    $userName = trim($_REQUEST["username"] ?? "");
+    $password = $_REQUEST["password"] ?? "";
     $role = $_REQUEST["role"] ?? "";
 
-    $userName = $_REQUEST["user_name"];
     if (empty($userName)) {
         $userNameError = "Please enter a username.";
         $hasError++;
     }
 
-    $password = $_REQUEST["Password"];
     if (empty($password)) {
         $passwordError = "Please enter a password.";
         $hasError++;
     }
-    
+
     if (empty($_REQUEST["terms"])) {
         $termsError = "You must agree to the terms and conditions.";
-        
     }
-    if (!isset($_REQUEST["terms"])) {
-        $termsError = "You must agree to the terms and conditions.";
-        
-    }
-    
-    $tableName = "admin";
 
     if ($hasError == 0) {
-        $myDB = new myDB();
-        $connectionObject = $myDB->openCon();
-    
-        $result =$myDB->login($userName, $password, $connectionObject);
-    
-        if ($result && $result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $role = $row['role'];
-            session_start();
-            $_SESSION["user_name"] = $userName;
-            switch ($role) {
-                case 'admin':
-                    header("Location: ../view/home.php");
-                    exit();
-                case 'employee':
-                    header("Location: ../view/showuser.php");
-                    exit();
-                case 'seller':
-                    header("Location: ../view/seller.php");
-                    exit();
-                default:
-                    header("Location: ../view/customer.php");
-                    exit();
+        $myDB = new MyDB();
+        $connectionObject = $myDB->conn;
+
+        if ($role === "seller") {
+            $sql = "SELECT * FROM seller WHERE username = ? AND password = ?";
+            $stmt = $connectionObject->prepare($sql);
+            $stmt->bind_param("ss", $userName, $password);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result && $result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $_SESSION["username"] = $userName;
+                $_SESSION["seller_Id"] = $row['seller_Id'];
+
+                // Redirect to seller information page
+                echo "<script>
+                        alert('Login Successful');
+                        window.location.href = '../view/seller_information.php';
+                      </script>";
+            } else {
+                echo "<script>
+                        alert('Incorrect username or password');
+                        window.location.href = '../view/login.php';
+                      </script>";
             }
-        } else {
-            echo "Invalid username or password";
+
+            $stmt->close();
         }
-        $myDB->closeCon($connectionObject);
-        // if ($result == 1) {
-        //     $_SESSION["user_name"] = $userName;
-        //     $_SESSION["Password"] = $password;
-        //     header("Location: ../view/home.php");
-        //     exit;
-        // } else {
-        //     echo "Error inserting data into the database.";
-        // } 
+
+        $myDB->closeCon();
     }
 }
-
 ?>

@@ -2,6 +2,8 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    background: url('../images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
     color: #333;
     text-align: center;
     padding: 20px;
@@ -23,7 +25,7 @@ table {
     width: 50%;
     margin: 0 auto;
     border-collapse: collapse;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -42,12 +44,12 @@ input[type="password"],
 input[type="tel"],
 textarea,
 select {
-    width: 100%;
-    padding: 10px;
+    width: 80%;
+    padding: 6px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 /* Gender Radio Button Styles */

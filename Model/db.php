@@ -18,6 +18,23 @@ class MyDB {
         $this->conn->close();
     }
 
+    public function login($userName, $password) {
+        // Ensure the username is safe to use in the query (escaping)
+        $userName = $this->conn->real_escape_string($userName);
+        $password = $this->conn->real_escape_string($password);
+
+        // Query to select user based on username and password
+        $sql = "SELECT * FROM seller WHERE name = ? AND password = ?";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("ss", $userName, $password); // Bind username and password
+            $stmt->execute();  // Execute the query
+            return $stmt->get_result();  // Return the result object
+        } else {
+            return false;  // Return false if the statement could not be prepared
+        }
+    }
+
     // Fetch all services from the service table
     public function getAllSellerServices() {
         $sql = "SELECT service_id, service_name, serviceType, phone_number, service_plan, speed, charge, location FROM service";
@@ -66,6 +83,73 @@ class MyDB {
         $stmt->bind_param("i", $serviceId);
         return $stmt->execute();
     }
+    // Update seller information
+// ✅ Update Seller & Automatically Update Service Table
+public function updateSeller($sellerId, $name, $email, $businessName, $businessType, $location) {
+    // Start a transaction to update both seller and service tables together
+    $this->conn->begin_transaction();
+
+    try {
+        // Update seller table
+        $sqlSeller = "UPDATE seller SET name = ?, email = ?, businessName = ?, businessType = ?, location = ? WHERE seller_Id = ?";
+        $stmtSeller = $this->conn->prepare($sqlSeller);
+        $stmtSeller->bind_param("sssssi", $name, $email, $businessName, $businessType, $location, $sellerId);
+        $stmtSeller->execute();
+
+        // Automatically update the related service table where service_id = seller_Id
+        $sqlService = "UPDATE service SET service_name = ?, location = ? WHERE service_id = ?";
+        $stmtService = $this->conn->prepare($sqlService);
+        $stmtService->bind_param("ssi", $businessName, $location, $sellerId);
+        $stmtService->execute();
+
+        // Commit both updates if successful
+        $this->conn->commit();
+        return true;
+    } catch (Exception $e) {
+        // Rollback in case of an error
+        $this->conn->rollback();
+        return false;
+    }
+}
+
+
+// ✅ Delete Seller & Automatically Delete Related Services
+public function deleteSeller($sellerId) {
+    // Start a transaction to delete both seller and services together
+    $this->conn->begin_transaction();
+
+    try {
+        // First, delete related services
+        $sqlService = "DELETE FROM service WHERE service_id = ?";
+        $stmtService = $this->conn->prepare($sqlService);
+        $stmtService->bind_param("i", $sellerId);
+        $stmtService->execute();
+
+        // Now, delete the seller
+        $sqlSeller = "DELETE FROM seller WHERE seller_Id = ?";
+        $stmtSeller = $this->conn->prepare($sqlSeller);
+        $stmtSeller->bind_param("i", $sellerId);
+        $stmtSeller->execute();
+
+        // Commit both deletions if successful
+        $this->conn->commit();
+        return true;
+    } catch (Exception $e) {
+        // Rollback in case of an error
+        $this->conn->rollback();
+        return false;
+    }
+}
+
+// ✅ Fetch Order Details for Seller's Service
+public function getOrderDetailsByServiceId($sellerId) {
+    $sql = "SELECT * FROM orderdet WHERE service_id = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $sellerId);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
 
     // Fetch user data by ID
     public function getUserByID($tableName, $id) {
@@ -94,6 +178,67 @@ class MyDB {
             return "Error preparing the statement: " . $this->conn->error;
         }
     }
+
+    // Fetch seller details by seller_Id
+public function getSellerDetails($sellerId) {
+    $sql = "SELECT name, email, businessName, businessType, location FROM seller WHERE seller_Id = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $sellerId);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+// Fetch services based on seller_Id
+public function getSellerServicesById($sellerId) {
+    $sql = "SELECT service_name, serviceType, service_plan, speed, charge, location FROM service WHERE service_id = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $sellerId);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
+// Update service details in the database
+public function updateServiceDetails($serviceId, $serviceName, $serviceType, $servicePlan, $speed, $charge, $location) {
+    $sql = "UPDATE service SET service_name = ?, serviceType = ?, service_plan = ?, speed = ?, charge = ?, location = ? WHERE service_id = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("ssssssi", $serviceName, $serviceType, $servicePlan, $speed, $charge, $location, $serviceId);
+    return $stmt->execute();
+}
+
+
+// // Function to update service details
+// public function updateService($serviceId, $servicePlan, $speed, $charge) {
+//     $sql = "UPDATE service SET service_plan = ?, speed = ?, charge = ? WHERE service_id = ?";
+//     $stmt = $this->conn->prepare($sql);
+//     $stmt->bind_param("sddi", $servicePlan, $speed, $charge, $serviceId);
+//     return $stmt->execute();
+// }
+// Update service details
+// public function updateServiceDetails($serviceId, $serviceName, $serviceType, $servicePlan, $speed, $charge, $location) {
+//     $sql = "UPDATE service SET service_name = ?, serviceType = ?, service_plan = ?, speed = ?, charge = ?, location = ? WHERE service_id = ?";
+//     $stmt = $this->conn->prepare($sql);
+//     $stmt->bind_param("sssddsi", $serviceName, $serviceType, $servicePlan, $speed, $charge, $location, $serviceId);
+//     return $stmt->execute();
+// }
+
+// Fetch service details by service_id
+public function getServiceDetails($serviceId) {
+    $sql = "SELECT service_id, service_name, serviceType, service_plan, speed, charge, location FROM service WHERE service_id = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $serviceId);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+public function getServiceDetailsByName($serviceName) {
+    $sql = "SELECT * FROM service WHERE service_name = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("s", $serviceName);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+
 
     // Update user information
     public function updateDataUser($seller_Id, $name, $email, $phone, $gender, $business_name, $business_type, $location, $password, $table) {

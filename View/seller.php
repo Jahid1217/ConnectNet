@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Registration</title>
-    <link rel="stylesheet" href="../css/newcss.css">
+    <link rel="stylesheet" href="../css/mycss.css">
 </head>
 <body>
     <img src="../images/seller.jpg" alt="Seller Registration" width="200" height="130">

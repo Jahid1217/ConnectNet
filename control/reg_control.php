@@ -24,16 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate password match
     if ($password === $confirmPassword) {
-        // Hash the password
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
         // Prepare and execute the SQL query
         $sql = "INSERT INTO seller (name, email, username, password, role, gender, phoneNumber, businessName, businessType, location) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $myDB->conn->prepare($sql);
         $stmt->bind_param(
             "ssssssssss",
-            $name, $email, $username, $hashedPassword, $role, $gender, $phoneNumber, $businessName, $businessType, $location
+            $name, $email, $username, $password, $role, $gender, $phoneNumber, $businessName, $businessType, $location
         );
 
         if ($stmt->execute()) {
