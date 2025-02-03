@@ -7,9 +7,9 @@ $mydb = new myDB();
 $conobj = $mydb->openCon();
 $results =$mydb->showAll("employee",$conobj);
 if ($results->num_rows > 0) {
-    echo "<table border='1' style='border-collapse: collapse; width: 100%;'>";
+    echo "<table class='show_table'>";
     echo "<thead>
-            <tr>
+            <tr class='table_head'>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
@@ -25,18 +25,19 @@ if ($results->num_rows > 0) {
     echo "<tbody>";
 
     foreach ($results as $data) {
-        echo "<tr>";
+        echo "<tr class='table_row'>";
         echo "<td>" . $data['employee_Id'] . "</td>";
         echo "<td>" . $data['name'] . "</td>";
         echo "<td>" . $data['email'] . "</td>";
-        echo "<td>" . $data['userName'] . "</td>";
+        echo "<td>" . $data['username'] . "</td>";
         echo "<td>" . $data['DOB'] . "</td>";
         echo "<td>" . $data['phoneNumber'] . "</td>";
-        echo "<td>" . $data['Role'] . "</td>";
+        echo "<td>" . $data['role'] . "</td>";
         echo "<td>" . $data['location'] . "</td>";
         echo "<td>" . $data['department'] . "</td>";
         echo "<td>" . $data['employeeType'] . "</td>";
         echo "<td><a href='../view/update_user.php?id=" . $data["employee_Id"] . "'>Update</a></td>";
+        echo "<td><a href='../view/update_user.php?id=" . $data["employee_Id"] . "'>Delete</a></td>";
         echo "</tr>";
     }
 

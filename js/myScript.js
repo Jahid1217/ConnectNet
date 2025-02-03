@@ -152,7 +152,7 @@ if (!validateRole()) {
 
   // File validation
 if (file) {
-  const allowedExtensions = /\.(pdf|docx)$/i;
+  const allowedExtensions = /\.(pdf|doc)$/i;
   const maxFileSize = 2 * 1024 * 1024; 
 
   if (!allowedExtensions.test(file.name)) {
@@ -303,6 +303,5 @@ function validateDepartment() {
   document.getElementById("error_Department").textContent = ""; // Clear error
   return true;
 }
-
 
 

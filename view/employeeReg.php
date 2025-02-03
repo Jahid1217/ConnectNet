@@ -6,10 +6,11 @@
 <head>
     <title>Employee Sign Up</title>
     <link rel="stylesheet" href="../styles/styles.css">
-</head>
+    </head>
 <body>
+
 <h1 id="title">Employee Sign Up</h1>
-        <form action="" method="POST" onsubmit="return validateForm()" enctype="mutipart/form-data" >
+        <form action="" method="POST" onsubmit="return validateForm()" enctype="multipart/form-data" >
         <fieldset>
             <legend>Employee Information & Details</legend>
             <table>
@@ -151,7 +152,7 @@
              <table>
                 <tr>
                     <td>
-                        <p>Already have an account? <a href="../login.php">Login</a></p>
+                        <p>Already have an account? <a href="../view/login.php">Login</a></p>
                     </td>
                 </tr>
              </table>

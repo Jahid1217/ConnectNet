@@ -2,60 +2,73 @@
 
 include '../database/db.php';
 
-// Validate and sanitize the input
-if ($_REQUEST["id"]) {
-    $id = intval($_GET["id"]); // Convert the id to an integer for safety
+if (isset($_GET["username"])) {
+    $username = htmlspecialchars($_GET["username"]);
 
     $mydb = new myDB();
     $conobj = $mydb->openCon();
-    $results = $mydb->getUserByID("employee", $conobj, $id);
+    $results = $mydb->getUserByUsername("employee", $conobj, $username);
 
     if ($results && $results->num_rows > 0) {
         while ($data = $results->fetch_assoc()) {
-            $id = $data["employee_Id"];
-            $Name = $data["name"];
-            $email = $data["email"];
-            $password = $data["password"];
-            $dateOfBirth = $data["DOB"];
-            $phoneNumber = $data["phoneNumber"];
-            $location = $data["location"];
+            $userDetails = [
+                'name' => $data["name"],
+                'email' => $data["email"],
+                'phoneNumber' => $data["phoneNumber"],
+                'DOB' => $data["DOB"],
+                'location' => $data["location"],
+                'picture' => $data["picture"]
+            ];
         }
     } else {
         echo "No Data Available";
     }
 
     $conobj->close();
-} else {
-    echo "Invalid ID provided.";
+}
+ else {
+    echo "User not logged in.";
 }
 
+
 if (isset($_POST["update"])) {
-    // Assuming you're getting these from a form
-    $id = $_POST["employee_Id"];
-    $Name = $_POST["name"];
+
+    $name = $_POST["name"];
     $email = $_POST["email"];
-    $password = $_POST["password"];
-    $dateOfBirth = $_POST["dob"];
-    $phoneNumber = $_POST["phone"];
-    $location = $_POST["address"];
-    
-    // Create a new database object
+    $phone = $_POST["phone"];
+    $dob = $_POST["dob"];
+    $address = $_POST["address"];
+    $email_notifications = isset($_POST["email_notifications"]) ? 1 : 0;
+    $sms_notifications = isset($_POST["sms_notifications"]) ? 1 : 0;
+
+    $profilePicture = null;
+    if (isset($_FILES["profile_picture"]) && $_FILES["profile_picture"]["error"] == 0) {
+        $targetDir = "../uploads/"; 
+        $profilePicture = basename($_FILES["profile_picture"]["name"]);
+        $targetFile = $targetDir . $profilePicture;
+
+        // Move uploaded file
+        if (move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $targetFile)) {
+            echo "File uploaded successfully.";
+        } else {
+            echo "Error uploading file.";
+            return;
+        }
+    } else {
+        $profilePicture = $userDetails['picture'];
+    }
+
     $mydb = new myDB();
-    
-    // Open a valid connection
     $conobj = $mydb->openCon();
     
-    // Call the update method
-    $update = $mydb->updateDataUser("employee", $conobj, $id, $Name, $email, $password, $dateOfBirth, $phoneNumber, $location);
+    $update = $mydb->updateDataUser("employee", $conobj, $name, $email, $dob, $phone, $address, $profilePicture , $username);
     
-    // Check the result
     if ($update === 1) {
-        echo "Data updated successfully!";
+       header("Location: ../view/employeeDashboard.php");
     } else {
         echo "Error updating data!";
     }
     
-    // Close the connection
     $mydb->conClose($conobj);
 }
 

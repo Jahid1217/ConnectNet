@@ -9,8 +9,9 @@ include_once '../control/update_control.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit User</title>
+    <link rel="stylesheet" href="../styles/styles.css">
 </head>
-<body>
+<body class="edit-user-page">
     <h1>Edit User</h1>
     <form action="" method="post">
         <label for="ID" >ID:</label>
@@ -30,6 +31,6 @@ include_once '../control/update_control.php';
         
         <input type="submit" value="update" name="update">
     </form>
-    <a href="showuser.php">Back to User List</a>
+    <a href="show_user.php">Back to User List</a>
 </body>
 </html>
