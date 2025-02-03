@@ -34,11 +34,11 @@ if (!isset($_SESSION["user_name"])) {
         <div class="content">
             <div class="card">
                 <h2>Feedback</h2>
-                <a href="feedback_view.php">Go to Feedback</a>
+                <a href="feedback_view.php?username=<?php echo($_SESSION['user_name']); ?>">Go to Feedback</a>
             </div>
             <div class="card">
                 <h2>Tasks</h2>
-                <a href="tasks.php">Go to Tasks</a>
+                <a href="tasks.php?username=<?php echo($_SESSION['user_name']); ?>">Go to Tasks</a>
             </div>
         </div>
     </div>

@@ -12,12 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $update = $mydb->feedbackStatusUpdate($feedbackId, $status, $conobj);
     
     if ($update === 1) {
-        echo "Data updated successfully!"; 
+        header("Location: ../view/feedback_view.php");
     } else {
         echo "Error updating data!";
     }
-
-    
     $mydb->conClose($conobj);
     } 
 }

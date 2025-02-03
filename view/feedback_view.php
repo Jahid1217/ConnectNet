@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +14,8 @@
         </div>
         <div class="nav-links">
             <a href=""></a>
-            <a href="admin_profile.php?username=<?php echo($_SESSION['user_name']); ?>">Profile</a>
-            <a href="profileSetting.php?username=<?php echo($_SESSION['user_name']); ?>">Settings</a>
+            <a href="employee_profile.php?username=<?php echo($_SESSION['user_name']); ?>">Profile</a>
+            <a href="employee_setting.php?username=<?php echo($_SESSION['user_name']); ?>">Settings</a>
         </div>
     </div>
     <?php
