@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2025 at 06:29 AM
+-- Generation Time: Feb 07, 2025 at 03:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `connectnet`
+-- Database: `connectnetup`
 --
 
 -- --------------------------------------------------------
@@ -53,7 +53,6 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `name`, `email`, `username`, `password`, `role`, `DOB`, `phoneNumber`, `adminRole`, `location`, `picture`, `referenceName`, `referenceEmail`, `referencePhone`, `referenceNameTwo`, `referenceEmailTwo`, `referencePhoneTwo`) VALUES
 (1, 'Jahid Hasan', 'jahid.hasan1217@gmail.com', 'Jahid@1217', 'Jahid@1217', 'admin', '2025-01-10', '01708769578', '<br />\r\n<b>Warning</b>:  Undefined variable $role in <b>C:\\xampp\\htdocs\\ConnectNet\\view\\edituser.php', '', '', 'jahid@1217', 'Jahid@1217', '123456789', 'Jahid@1712', 'Jahid@1217', '987654321'),
-(2, 'Jahid Hasan Sohan', 'jahid.hasan217@gmail.com', 'Sohan@1217', 'Sohan@1217', 'admin', '2025-01-10', '9876543211', 'Billing_Admin', 'Dhaka', 'Screenshot 2025-01-08 014348.png', 'jahid@1217', 'Jahid@1217', '9876543212', 'Jahid@1712', 'Jahid@1217', '987654321'),
 (3, 'Jahid Hasan Sohan', 'Admin@gmail.com', 'Admin@1217', 'Admin1234', 'admin', '2025-01-25', '01708769578', 'Network_Admin', 'mirpur,dhaka', 'Screenshot 2025-01-17 181549.png', 'refNameOne', 'ref@gmail.com', '9876543212', 'refNameTwo', 'refNameTwo@gmail.com', '987654321');
 
 -- --------------------------------------------------------
@@ -102,15 +101,17 @@ CREATE TABLE `employee` (
   `employee_role` varchar(200) NOT NULL,
   `department` varchar(100) NOT NULL,
   `location` varchar(200) NOT NULL,
-  `employeeType` varchar(100) NOT NULL
+  `employeeType` varchar(100) NOT NULL,
+  `status` varchar(100) NOT NULL DEFAULT 'waiting'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`employee_Id`, `name`, `email`, `username`, `password`, `role`, `DOB`, `phoneNumber`, `employee_role`, `department`, `location`, `employeeType`) VALUES
-(1, 'employee1', 'employee@gmail.com', 'employee', 'employee@123', 'employee', '01/02/2003', '12365498778', 'sell', 'cs', 'dhaka', 'manager');
+INSERT INTO `employee` (`employee_Id`, `name`, `email`, `username`, `password`, `role`, `DOB`, `phoneNumber`, `employee_role`, `department`, `location`, `employeeType`, `status`) VALUES
+(2, 'Sumaiya Afrin', 'ts@gmail.com', 'sumaiya', '@123asdfG', 'employee', '2025-01-02', '01923548250', 'Technician', 'Technical Support', 'Dhaka', 'Full-Time', 'waiting'),
+(3, 'Amira binte', 'amira@gmail.com', 'amira', 'Passw@rd123', 'employee', '2022-02-01', '01234567892', 'Sales Manager', 'Sales', 'Sylhet', 'Full-Time', 'waiting');
 
 -- --------------------------------------------------------
 
@@ -132,8 +133,23 @@ CREATE TABLE `employeetoken` (
 
 CREATE TABLE `feedback` (
   `feedback_Id` int(100) NOT NULL,
-  `description` varchar(200) NOT NULL
+  `user_name` varchar(100) NOT NULL,
+  `f_name` text NOT NULL,
+  `f_email` varchar(100) NOT NULL,
+  `issue_type` varchar(200) NOT NULL,
+  `message` text NOT NULL,
+  `feedback_date` date NOT NULL DEFAULT current_timestamp(),
+  `Status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`feedback_Id`, `user_name`, `f_name`, `f_email`, `issue_type`, `message`, `feedback_date`, `Status`) VALUES
+(5, ' afrin', 'Afrin', 'ts@gmail.com', 'billing', 'asdfghjk', '2025-01-29', 'Pending'),
+(6, ' zisan', 'Zisan', 'zz@gmail.com', 'billing', 'qwetyu', '2025-01-29', 'Resolved'),
+(7, ' qqqqqqqqq', 'qq', 'ts@gmail.com', 'feedback', 'qwertyu', '2025-01-29', 'Closed');
 
 -- --------------------------------------------------------
 
@@ -175,15 +191,16 @@ CREATE TABLE `seller` (
   `phoneNumber` varchar(200) NOT NULL,
   `businessName` varchar(100) NOT NULL,
   `businessType` varchar(200) NOT NULL,
-  `location` varchar(200) NOT NULL
+  `location` varchar(200) NOT NULL,
+  `status` varchar(100) NOT NULL DEFAULT 'waiting'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `seller`
 --
 
-INSERT INTO `seller` (`seller_Id`, `name`, `email`, `username`, `password`, `role`, `gender`, `phoneNumber`, `businessName`, `businessType`, `location`) VALUES
-(1, 'seller1', 'sell@123', 'seller', 'seller@123', 'seller', 'male', '12345678989', 'net', 'net', 'dhaka');
+INSERT INTO `seller` (`seller_Id`, `name`, `email`, `username`, `password`, `role`, `gender`, `phoneNumber`, `businessName`, `businessType`, `location`, `status`) VALUES
+(1, 'seller1', 'sell@123', 'seller', 'seller@123', 'seller', 'male', '12345678989', 'net', 'net', 'dhaka', 'waiting');
 
 -- --------------------------------------------------------
 
@@ -291,7 +308,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `employee_Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `employee_Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `employeetoken`
@@ -303,7 +320,7 @@ ALTER TABLE `employeetoken`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `feedback_Id` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `feedback_Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `order`

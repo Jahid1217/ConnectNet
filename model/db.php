@@ -5,7 +5,7 @@ class myDB {
         $DBHost = "localhost"; 
         $DBUser = "root";      
         $DBPassword = "";      
-        $DBName = "connectnet";   
+        $DBName = "connectnetup";   
         // Create a connection object
         $connectionObject = new mysqli($DBHost, $DBUser, $DBPassword, $DBName);
         return $connectionObject;

@@ -1,14 +1,13 @@
 <?php
 
-include "../model/db.php";
+include "../database/db.php";
 
 session_start();
 $hasError = 0;
 $userNameError = "";
 $passwordError = "";
-$failedLogin = "" ;
-// $termsError = "";
-// $roleError = "";
+$termsError = "";
+$roleError = "";
 
 // Validate and sanitize the input
 
@@ -30,14 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hasError++;
     }
     
-    // if (empty($_REQUEST["terms"])) {
-    //     $termsError = "You must agree to the terms and conditions.";
+    if (empty($_REQUEST["terms"])) {
+        $termsError = "You must agree to the terms and conditions.";
         
-    // }
-    // if (!isset($_REQUEST["terms"])) {
-    //     $termsError = "You must agree to the terms and conditions.";
+    }
+    if (!isset($_REQUEST["terms"])) {
+        $termsError = "You must agree to the terms and conditions.";
         
-    // }
+    }
     
     $tableName = "admin";
 
@@ -57,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: ../view/home.php");
                     exit();
                 case 'employee':
-                    header("Location: ../Employee/view/employeeDashboard.php");
+                    header("Location: ../view/employeeDashboard.php");
                     exit();
                 case 'seller':
                     header("Location: ../view/seller.php");
@@ -67,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit();
             }
         } else {
-            $failedLogin = "Invalid username or password";
+            echo "Invalid username or password";
         }
         $myDB->closeCon($connectionObject);
         // if ($result == 1) {
